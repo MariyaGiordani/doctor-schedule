@@ -1,0 +1,22 @@
+.signup-patient {
+    min-height: 100vh;
+    background-color: #F0F8FF;
+    padding: 40px;
+}
+
+.signup-patient__form {
+    background-image: url("../../assets/img/registration-patient.jpeg");
+    font-weight: bolder;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    border: 1px solid #778899;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px 35px;
+    position: relative;
+    width: 50%;
+    left: 35%;
+    margin-left: -100px;
+}

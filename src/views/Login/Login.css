@@ -10,9 +10,10 @@
 }
 
 .login {
+  min-height: 100vh;
   background-image: url("../../assets/img/login.jpg");
   font-weight: bolder;
-  height: 500px;
+  height: 100%;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -24,4 +25,8 @@
   background-color: white;
   border-radius: 10px;
   padding: 10px 35px;
+}
+
+.login--margin {
+  margin: 15px 0;
 }
