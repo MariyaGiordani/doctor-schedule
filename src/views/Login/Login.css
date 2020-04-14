@@ -1,0 +1,32 @@
+@media all and (min-width: 480px) {
+    .login {
+      padding: 60px 0;
+    }
+  
+    .login form {
+      margin: 0 auto;
+      max-width: 320px;
+    }
+}
+
+.login {
+  min-height: 100vh;
+  background-image: url("../../assets/img/login.jpg");
+  font-weight: bolder;
+  height: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.login__form {
+  border: 1px solid #778899;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px 35px;
+}
+
+.login--margin {
+  margin: 15px 0;
+}

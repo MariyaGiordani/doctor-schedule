@@ -1,0 +1,44 @@
+.signup {
+    min-height: 100vh;
+    background-image: url("../../assets/img/cadastro.jpg");
+    font-weight: bolder;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+.signup__body {
+    display: flex;
+}
+
+.signup__img-doctor {
+    margin-bottom: 20px;
+    width: 25%;
+}
+
+.signup__img-petient {
+    width: 30%;
+}
+
+.signup__item {
+    justify-items: center;
+    border: 1px solid #778899;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px 35px;
+    background-color: #f1f1f1;
+    margin: 50px;
+    padding: 25px;
+    text-align: center;
+    font-size: x-large;
+    width: 50%;
+}
+
+h4 {
+    padding-top: 20px;
+    text-align: center;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+}
