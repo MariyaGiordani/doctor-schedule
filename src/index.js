@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { showNavBar } from '../src/utils/showNavBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Login from '../src/views/Login/Login';
 import Dashboard from '../src/views/Dashboard/Dashboard';
