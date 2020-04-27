@@ -14,10 +14,10 @@ import SignupPatient from '../src/components/SignupPatient/signupPatient';
 
 const routes = () => (
     <Fragment>
-        {showNavBar()}
+        {/* {showNavBar()} */}
         <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/login" component={Login} />
+            <Route exact path="/" component={Login} />
+            <Route path="/home" component={Home} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/signup" component={Signup} />
             <Route path="/signup-doctor" component={SignupDoctor} />

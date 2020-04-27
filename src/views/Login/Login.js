@@ -42,9 +42,6 @@ export default function Login(props) {
               <br/>
               <a href="/signup">Crie uma</a>
           </div>
-          <div className="forgot-password text-right login--margin">
-              Forgot <a href="#">password?</a>
-          </div>
         </form>
     </div>
   );
