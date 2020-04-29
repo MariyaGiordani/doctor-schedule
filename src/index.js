@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { showNavBar } from '../src/utils/showNavBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Login from '../src/views/Login/Login';
 import Dashboard from '../src/views/Dashboard/Dashboard';
@@ -14,10 +14,10 @@ import SignupPatient from '../src/components/SignupPatient/signupPatient';
 
 const routes = () => (
     <Fragment>
-        {showNavBar()}
+        {/* {showNavBar()} */}
         <Switch>
-            <Route exact path="/" component={Home} />
-            <Route path="/login" component={Login} />
+            <Route exact path="/" component={Login} />
+            <Route path="/home" component={Home} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/signup" component={Signup} />
             <Route path="/signup-doctor" component={SignupDoctor} />

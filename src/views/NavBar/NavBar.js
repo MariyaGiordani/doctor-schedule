@@ -7,7 +7,7 @@ function NavBar() {
   return (
     <div className="header">
       <NavLink exact activeClassName="active" to="/">
-        <img className="header__img" src={download}/>
+        <img className="header__img" alt="" src={download}/>
         Home
       </NavLink>
       <NavLink activeClassName="active" to="/login">Login</NavLink>

@@ -1,8 +1,13 @@
 .header {
+  position: fixed;
   padding: 10px;
   background: #D3D3D3;
-  font-weight:bold;
+  font-weight: bold;
   border-bottom: 1px solid #778899;
+  width: 100%;
+  overflow: hidden;
+  top: 0;
+  z-index: 1;
 }
 .header a {
   color: #0072ff;
@@ -22,6 +27,6 @@
 
 .header__img {
   width: 5%;
-  margin-right: 10px;
+  margin-right: 20px;
   border: 1px solid #778899;
 }

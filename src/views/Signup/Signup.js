@@ -12,15 +12,15 @@ export default function Signup(props) {
         <div className="signup__body">
             <div className="signup__item"> 
                 <Link to="/signup-doctor">
-                    <img className="signup__img-doctor" src={doctor}/>
-                    <img className="signup__img-doctor" src={Doctor}/>
+                    <img className="signup__img-doctor" alt="" src={doctor}/>
+                    <img className="signup__img-doctor" alt=""  src={Doctor}/>
                     <br/>
                     Cadastro de Doutor
                 </Link>
             </div>
             <div className="signup__item">
                 <Link to="/signup-patient">
-                    <img className="signup__img-petient" src={team}/>
+                    <img className="signup__img-petient" alt="" src={team}/>
                     <br/>
                     Cadastro de Paciente
                 </Link>

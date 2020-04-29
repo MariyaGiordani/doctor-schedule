@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import {Link} from 'react-router-dom';
 import "./Login.css";
 
 export default function Login(props) {
@@ -42,9 +41,6 @@ export default function Login(props) {
               Não tem uma conta?
               <br/>
               <a href="/signup">Crie uma</a>
-          </div>
-          <div className="forgot-password text-right login--margin">
-              Forgot <a href="#">password?</a>
           </div>
         </form>
     </div>
