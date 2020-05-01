@@ -11,7 +11,8 @@ import PropTypes from 'prop-types';
 import Select from "@material-ui/core/Select";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
-import planilha from '../../assets/img/planilha.jpg'
+import planilha from '../../assets/img/planilha.jpg';
+import axios from 'axios';
 
 function TextMaskCustom(props) {
     const { inputRef, ...other } = props;
@@ -85,7 +86,7 @@ export default class SignupDoctor extends Component {
 
         if(!this.state.cpf.match(/[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}/)) {
             this.setState({ cpf: ''});
-        } 
+        }
 
         if (this.state.specialty === null || this.state.firstName === "" || this.state.lastName === "" || this.state.cpf && this.state.crm === "" || this.state.email === "" || this.state.password === "") {
           this.setState({ hasError: true });
@@ -93,10 +94,29 @@ export default class SignupDoctor extends Component {
     }
 
     handleSubmit(event) {
-        //this.setState({ submitted: true });
-        //this.setState({ submitError: true });
-        console.log(event);        
+        let data = {
+            UserName: this.state.email,
+            Password: this.state.password,
+            Doctor: {
+              Cpf: this.state.cpf,
+              FirstName: this.state.firstName,
+              LastName: this.state.lastName,
+              Email: this.state.email,
+              Crm: this.state.crm,
+              Speciality: this.state.specialty
+            },
+        }
         event.preventDefault();
+        console.log(data); 
+        axios.post('', data)
+          .then(response => {
+            //    this.setState({ submitted: true });
+               console.log(response);
+          })
+          .catch(error => {
+               //this.setState({ submitError: true });
+               console.log(error);
+          })
     }
 
     render() {
