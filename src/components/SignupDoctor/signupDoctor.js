@@ -98,7 +98,7 @@ export default class SignupDoctor extends Component {
             UserName: this.state.email,
             Password: this.state.password,
             Doctor: {
-              Cpf: this.state.cpf,
+              Cpf: 55555555555,
               FirstName: this.state.firstName,
               LastName: this.state.lastName,
               Email: this.state.email,
@@ -108,15 +108,29 @@ export default class SignupDoctor extends Component {
         }
         event.preventDefault();
         console.log(data); 
-        axios.post('', data)
-          .then(response => {
-            //    this.setState({ submitted: true });
-               console.log(response);
-          })
-          .catch(error => {
-               //this.setState({ submitError: true });
-               console.log(error);
-          })
+        const URL = `http://localhost:5000/api/Users`;
+
+        axios(URL, {
+            method: 'POST',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'content-type': 'application/json',
+            },
+            data: data,
+        })
+            .then(response => response.data)
+            .catch(error => {
+            throw error;
+        });
+        // axios.post('http://localhost:5000/api/Users', data)
+        //   .then(response => {
+        //     //    this.setState({ submitted: true });
+        //        console.log(response);
+        //   })
+        //   .catch(error => {
+        //        //this.setState({ submitError: true });
+        //        console.log(error);
+        //   })
     }
 
     render() {
