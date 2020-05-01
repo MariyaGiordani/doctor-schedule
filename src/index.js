@@ -6,7 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Login from '../src/views/Login/Login';
-import Dashboard from '../src/views/Dashboard/Dashboard';
+import DashboardDoctor from '../src/views/DashboardDoctor/DashboardDoctor';
 import Home from '../src/views/Home/Home';
 import Signup from '../src/views/Signup/Signup'
 import SignupDoctor from '../src/components/SignupDoctor/signupDoctor';
@@ -18,7 +18,7 @@ const routes = () => (
         <Switch>
             <Route exact path="/" component={Login} />
             <Route path="/home" component={Home} />
-            <Route path="/dashboard" component={Dashboard} />
+            <Route path="/dashboard-doctor" component={DashboardDoctor} />
             <Route path="/signup" component={Signup} />
             <Route path="/signup-doctor" component={SignupDoctor} />
             <Route path="/signup-patient" component={SignupPatient} />

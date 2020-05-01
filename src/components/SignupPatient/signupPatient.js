@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import planilha from '../../assets/img/planilha.jpg'
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
+import axios from 'axios';
 
 function TextMaskCustom(props) {
     const { inputRef, ...other } = props;
@@ -81,10 +82,27 @@ export default class SignupPatient extends Component {
     }
 
     handleSubmit(event) {
-        //this.setState({ submitted: true });
-        //this.setState({ submitError: true });
-        console.log(event);        
+        let data = {
+            UserName: this.state.email,
+            Password: this.state.password,
+            Patient: {
+              Cpf: this.state.cpf,
+              FirstName: this.state.firstName,
+              LastName: this.state.lastName,
+              Email: this.state.email
+            },
+        }
         event.preventDefault();
+        console.log(data); 
+        axios.post('', data)
+          .then(response => {
+               this.setState({ submitted: true });
+               console.log(response);
+          })
+          .catch(error => {
+               this.setState({ submitError: true });
+               console.log(error);
+          })
     }
 
     render() {
