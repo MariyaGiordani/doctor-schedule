@@ -88,7 +88,7 @@ export default class SignupDoctor extends Component {
             this.setState({ cpf: ''});
         }
 
-        if (this.state.specialty === null || this.state.firstName === "" || this.state.lastName === "" || this.state.cpf && this.state.crm === "" || this.state.email === "" || this.state.password === "") {
+        if (this.state.specialty === null || this.state.firstName === "" || this.state.lastName === "" || this.state.cpf || this.state.crm === "" || this.state.email === "" || this.state.password === "") {
           this.setState({ hasError: true });
         }
     }
@@ -98,7 +98,7 @@ export default class SignupDoctor extends Component {
             UserName: this.state.email,
             Password: this.state.password,
             Doctor: {
-              Cpf: 55555555555,
+              Cpf: this.state.cpf,
               FirstName: this.state.firstName,
               LastName: this.state.lastName,
               Email: this.state.email,
@@ -113,8 +113,11 @@ export default class SignupDoctor extends Component {
         axios(URL, {
             method: 'POST',
             headers: {
-                'Access-Control-Allow-Origin': '*',
-                'content-type': 'application/json',
+                'Access-Control-Allow-Origin': 'http://localhost:3000',
+                'content-type': 'application/json;',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                'Access-Control-Allow-Headers': '*',
+                'Accept': '/'
             },
             data: data,
         })
@@ -122,15 +125,6 @@ export default class SignupDoctor extends Component {
             .catch(error => {
             throw error;
         });
-        // axios.post('http://localhost:5000/api/Users', data)
-        //   .then(response => {
-        //     //    this.setState({ submitted: true });
-        //        console.log(response);
-        //   })
-        //   .catch(error => {
-        //        //this.setState({ submitError: true });
-        //        console.log(error);
-        //   })
     }
 
     render() {
