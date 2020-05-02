@@ -76,7 +76,7 @@ export default class SignupPatient extends Component {
             this.setState({ cpf: ''});
         } 
 
-        if (this.state.specialty === null || this.state.firstName === "" || this.state.lastName === "" || this.state.cpf && this.state.crm === "" || this.state.email === "" || this.state.password === "") {
+        if (this.state.specialty === null || this.state.firstName === "" || this.state.lastName === "" || this.state.cpf || this.state.crm === "" || this.state.email === "" || this.state.password === "") {
           this.setState({ hasError: true });
         }
     }
@@ -94,15 +94,23 @@ export default class SignupPatient extends Component {
         }
         event.preventDefault();
         console.log(data); 
-        axios.post('', data)
-          .then(response => {
-               this.setState({ submitted: true });
-               console.log(response);
-          })
-          .catch(error => {
-               this.setState({ submitError: true });
-               console.log(error);
-          })
+        const URL = `http://localhost:5000/api/Users`;
+
+        axios(URL, {
+            method: 'POST',
+            headers: {
+                'Access-Control-Allow-Origin': 'http://localhost:3000',
+                'content-type': 'application/json;',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                'Access-Control-Allow-Headers': '*',
+                'Accept': '/'
+            },
+            data: data,
+        })
+            .then(response => response.data)
+            .catch(error => {
+            throw error;
+        });
     }
 
     render() {
