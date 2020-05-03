@@ -51,7 +51,7 @@ export default class SearchPage extends Component {
             <div className="search-page">
                 {!this.state.submitted && !this.state.submitError &&
                 <form className="search-page__form" onSubmit={this.handleSubmit}>
-                    <h3 className="search-page--margin">Registro de Médico</h3>
+                    <h3 className="search-page--margin">Pesquisar Médico</h3>
                     <FormControl fullWidth variant="outlined" error={hasError}>
                         <div className="form-group">
                             <TextField fullWidth name="name" error={this.state.firstName === "" && hasError ? true : false}  value={this.state.firstName} label="Nome do Médico*" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
@@ -59,7 +59,7 @@ export default class SearchPage extends Component {
                         </div>
 
                         <div className="form-group">
-                            <InputLabel className="signup-doctor--position" error={this.state.errorSpecialty}>Especialidade</InputLabel>
+                            <InputLabel className="signup-doctor--position" error={this.state.errorSpecialty}>Especialidade*</InputLabel>
                             <Select
                                 fullWidth
                                 error={this.state.errorSpecialty}

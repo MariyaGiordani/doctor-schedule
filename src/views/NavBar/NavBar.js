@@ -78,9 +78,9 @@ export default function NavBar() {
             textColor="primary"
             aria-label="nav tabs example"
           >
-            <LinkTab label="Page One" icon={ <HomeIcon />} href="/dashboard-doctor" {...a11yProps(0)} />
-            <LinkTab label="Page Two" href="/" {...a11yProps(1)} />
-            <LinkTab label="Page Three" href="/spam" {...a11yProps(2)} />
+            <LinkTab label="Início" icon={ <HomeIcon />} href="/dashboard-doctor" {...a11yProps(0)} />
+            <LinkTab label="Buscar Médico" href="/" {...a11yProps(1)} />
+            {/* <LinkTab label="Page Three" href="/spam" {...a11yProps(2)} /> */}
           </Tabs>
       </AppBar>
     </div>

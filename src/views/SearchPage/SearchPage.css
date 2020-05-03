@@ -1,13 +1,14 @@
 .search-page {
     min-height: 100vh;
     background-image: url("../../assets/img/cadastro.jpg");
-    padding: 40px;
+    padding: 6em 4em;
     font-weight: bolder;
     height: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     position: relative;
+    margin-top: 4em;
 }
 
 .search-page__form {

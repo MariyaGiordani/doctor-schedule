@@ -180,7 +180,7 @@ export default class SignupDoctor extends Component {
                         </div>
 
                         <div className="form-group">
-                            <InputLabel className="signup-doctor--position" error={this.state.errorSpecialty}>Especialidade</InputLabel>
+                            <InputLabel className="signup-doctor--position" error={this.state.errorSpecialty}>Especialidade*</InputLabel>
                             <Select
                                 fullWidth
                                 error={this.state.errorSpecialty}

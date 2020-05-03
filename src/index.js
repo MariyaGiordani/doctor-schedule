@@ -16,7 +16,7 @@ import SearchPage from './views/SearchPage/SerachPage'
 
 const routes = () => (
     <Fragment>
-        {/* {showNavBar()} */}
+        {showNavBar()}
         <Switch>
             <Route exact path="/" component={Login} />
             <Route path="/home" component={Home} />
