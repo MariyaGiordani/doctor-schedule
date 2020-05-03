@@ -1,7 +1,7 @@
 import React from 'react'
 import { showNavBar } from '../../utils/showNavBar';
-import Calendar from '../../components/Calendar/Calendar';
 import mockDoctorEvents from '../../utils/mockDoctorEvent'
+import Calendar from '../../components/calendar/calendar'
 
 export default class DashboardDoctor extends React.Component {
   render() {
