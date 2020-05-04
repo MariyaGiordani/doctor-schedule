@@ -9,10 +9,11 @@ import Login from '../src/views/Login/Login';
 import DashboardDoctor from '../src/views/DashboardDoctor/DashboardDoctor';
 import Home from '../src/views/Home/Home';
 import Signup from '../src/views/Signup/Signup'
-import SignupDoctor from './components/signupDoctor/signupDoctor';
-import SignupPatient from './components/signupPatient/signupPatient';
+import SignupDoctor from './components/SignupDoctor/signupDoctor';
+import SignupPatient from './components/SignupPatient/signupPatient';
 import DashboardPatient from '../src/views/DashboardPatient/DashboardPatient';
 import SearchPage from './views/SearchPage/SerachPage'
+import ResultPageDoctor from './views/ResultPageDoctor/ResultpageDoctor'
 
 const routes = () => (
     <Fragment>
@@ -26,6 +27,7 @@ const routes = () => (
             <Route path="/signup-doctor" component={SignupDoctor} />
             <Route path="/search-page" component={SearchPage} />
             <Route path="/signup-patient" component={SignupPatient} />
+            <Route path="/result-doctor" component={ResultPageDoctor} />
         </Switch>
     </Fragment>
   );

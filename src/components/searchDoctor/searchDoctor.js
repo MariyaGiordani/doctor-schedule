@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import './searchDoctor.css'
 import ListItem from '@material-ui/core/ListItem';
-import { makeStyles } from '@material-ui/core/styles';
 import ListItemText from '@material-ui/core/ListItemText';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import List from '@material-ui/core/List';

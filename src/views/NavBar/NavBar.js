@@ -7,8 +7,9 @@ import PropTypes from 'prop-types';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Link from '@material-ui/core/Link';
 import HomeIcon from '@material-ui/icons/Home';
+import PersonPinIcon from '@material-ui/icons/PersonPin';
+import PageviewIcon from '@material-ui/icons/Pageview';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -17,8 +18,8 @@ function TabPanel(props) {
     <div
       role="tabpanel"
       hidden={value !== index}
-      id={`nav-tabpanel-${index}`}
-      aria-labelledby={`nav-tab-${index}`}
+      id={`scrollable-force-tabpanel-${index}`}
+      aria-labelledby={`scrollable-force-tab-${index}`}
       {...other}
     >
       {value === index && (
@@ -38,28 +39,35 @@ TabPanel.propTypes = {
 
 function a11yProps(index) {
   return {
-    id: `nav-tab-${index}`,
-    'aria-controls': `nav-tabpanel-${index}`,
+    id: `scrollable-force-tab-${index}`,
+    'aria-controls': `scrollable-force-tabpanel-${index}`,
   };
-}
-
-function LinkTab(props) {
-  return (
-    <Tab
-      component={Link}
-      {...props}
-    />
-  );
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    width: '100%',
     backgroundColor: theme.palette.background.paper,
+    textDecoration: "none"
   },
 }));
 
+function selected(pathname) {
+  switch (pathname) {
+    case '/dashboard-patient':
+      return 0;
+    case '/search-page':
+      return 1;
+    case '/home':
+      return 2;
+    default:
+      return [];
+  }
+}
+
 export default function NavBar() {
+  const pathname = window.location.pathname;
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -69,19 +77,20 @@ export default function NavBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="fixed" color="default">
-          <Tabs
-            variant="standard"
-            value={value}
-            onChange={handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            aria-label="nav tabs example"
-          >
-            <LinkTab label="Início" icon={ <HomeIcon />} href="/dashboard-doctor" {...a11yProps(0)} />
-            <LinkTab label="Buscar Médico" href="/" {...a11yProps(1)} />
-            {/* <LinkTab label="Page Three" href="/spam" {...a11yProps(2)} /> */}
-          </Tabs>
+      <AppBar position="static" color="default">
+        <Tabs
+          value={selected(pathname)}
+          onChange={handleChange}
+          variant="scrollable"
+          scrollButtons="on"
+          indicatorColor="primary"
+          textColor="primary"
+          aria-label="scrollable force tabs example"
+        >
+          <Tab value={0} style={{textDecoration: 'none'}} label="Início" icon={<HomeIcon />} href="/dashboard-patient" {...a11yProps(0)} />
+          <Tab value={1} style={{textDecoration: 'none'}} label="Buscar Médico" icon={<PageviewIcon />} href="/search-page" {...a11yProps(1)} />
+          <Tab value={2} style={{textDecoration: 'none'}} label="Perfil" icon={<PersonPinIcon />} href="/home" {...a11yProps(2)} />
+        </Tabs>
       </AppBar>
     </div>
   );

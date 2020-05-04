@@ -1,11 +1,10 @@
-.dashboard-patient {
+.result-doctor {
     border: 1px solid #778899;
     border-radius: 10px;
     margin: 50px;
-    margin-top: 7em;
 }
 
-.dashboard-patient__doctor {
+.result-doctor__title {
     background-color: #3788d8;
     color: white;
     border-top-left-radius: 10px;
