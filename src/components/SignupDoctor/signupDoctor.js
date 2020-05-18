@@ -41,8 +41,9 @@ export default class SignupDoctor extends Component {
             firstName: '',
             lastName:'',
             email:'',
-            crm: '',
+            crm: null,
             cpf:'',
+            message:'',
             specialty: null,
             password:'',
             submitted: false,
@@ -55,7 +56,7 @@ export default class SignupDoctor extends Component {
     }
 
     handleChange(event) {
-        const regex = /[A-Za-z]/;
+        const regex = /^[a-zA-Z\s]+$/;
         const target = event.target;
         const value = target.value;
         const name = target.name;
@@ -67,6 +68,7 @@ export default class SignupDoctor extends Component {
                 console.log(`${char} is not a valid character.`);
                 return false;
             }
+            this.setState({ errorSpecialty: false });
             this.setState({ [name]: value, hasError: false});
         }else {
             if(name === "specialty") {
@@ -78,7 +80,7 @@ export default class SignupDoctor extends Component {
         return true;
     }
 
-    handleClick() {
+    handleSubmit(event) {
         this.setState({ hasError: false });
         if(this.state.specialty === null) {
             this.setState({ errorSpecialty: true });
@@ -88,12 +90,10 @@ export default class SignupDoctor extends Component {
             this.setState({ cpf: ''});
         }
 
-        if (this.state.specialty === null || this.state.firstName === "" || this.state.lastName === "" || this.state.cpf || this.state.crm === "" || this.state.email === "" || this.state.password === "") {
-          this.setState({ hasError: true });
-        }
-    }
+        let requiredFields = ["firstName", "lastName", "cpf", "email", "password", "crm", "specialty"];
+        let missing = requiredFields.filter(f => { return this.state[f] === undefined || this.state[f] === null || this.state[f] === ''; } );
+        console.log("Missing", missing);
 
-    handleSubmit(event) {
         let data = {
             UserName: this.state.email,
             Password: this.state.password,
@@ -101,30 +101,38 @@ export default class SignupDoctor extends Component {
               Cpf: this.state.cpf,
               FirstName: this.state.firstName,
               LastName: this.state.lastName,
-              Email: this.state.email,
               Crm: this.state.crm,
               Speciality: this.state.specialty
             },
         }
         event.preventDefault();
         console.log(data); 
-        const URL = `http://localhost:5000/api/Users`;
-
-        axios(URL, {
-            method: 'POST',
-            headers: {
-                'Access-Control-Allow-Origin': 'http://localhost:3000',
-                'content-type': 'application/json;',
-                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                'Access-Control-Allow-Headers': '*',
-                'Accept': '/'
-            },
-            data: data,
-        })
-            .then(response => response.data)
-            .catch(error => {
-            throw error;
-        });
+        const URL = `https://localhost:44388/api/Users`;
+ 
+        if (missing.length > 0) {
+            this.setState({ hasError: true });
+        }else {
+            axios(URL, {
+                method: 'POST',
+                headers: {
+                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'content-type': 'application/json;',
+                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                    'Access-Control-Allow-Headers': '*',
+                    'Accept': '/'
+                },
+                data: data,
+            })
+                .then(response => { 
+                    if(response.data.sucesso) {
+                        this.setState({ message: response.data.mensagem, submitted: true });
+                    }else {
+                        this.setState({ message: response.data.mensagem, submitError: true });
+                    }
+                }).catch(error => {
+                    this.setState({ message: error.data.mensagem, submitError: true });
+            });
+        }
     }
 
     render() {
@@ -135,7 +143,7 @@ export default class SignupDoctor extends Component {
                     this.state.submitted && 
                     <div className="signup-doctor__form">
                         <Alert variant="filled" severity="success">
-                            O registro foi salvo com sucesso!
+                            {this.state.message}
                         </Alert>
                         <img className="signup-doctor-img" alt="" src={planilha}/>
                         <p className="forgot-password text-right">
@@ -147,7 +155,7 @@ export default class SignupDoctor extends Component {
                     this.state.submitError && 
                     <div className="signup-doctor__form">
                         <Alert variant="filled" severity="error">
-                            O registro não fou salvo!
+                           {this.state.message}
                         </Alert>
                         <img className="signup-doctor-img" alt="" src={planilha}/>
                         <p className="forgot-password text-right">
@@ -170,8 +178,8 @@ export default class SignupDoctor extends Component {
                         </div>
 
                         <div className="form-group">
-                            <TextField fullWidth name="crm" label="CRM*" error={this.state.crm === "" && hasError ? true : false} value={this.state.crm} type="number" variant="outlined"  onChange={this.handleChange} onInput={(e)=>{ e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10) }} min={0}/>
-                            {this.state.crm === "" && hasError && <FormHelperText>Digita seu CRM!</FormHelperText>}
+                            <TextField fullWidth name="crm" label="CRM*" error={this.state.crm === null && hasError ? true : false} value={this.state.crm} type="number" variant="outlined"  onChange={this.handleChange} onInput={(e)=>{ e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10) }} min={0}/>
+                            {this.state.crm === null && hasError && <FormHelperText>Digita seu CRM!</FormHelperText>}
                         </div>
 
                         <div className="form-group">
@@ -207,7 +215,7 @@ export default class SignupDoctor extends Component {
                             {this.state.password === "" && hasError && <FormHelperText>Digita senha!</FormHelperText>}
                         </div>
                     </FormControl>
-                    <button type="submit" className="btn btn-primary btn-block" onClick={() => this.handleClick()}>Inscrever-se</button>
+                    <button type="submit" className="btn btn-primary btn-block">Inscrever-se</button>
                     <p className="forgot-password text-right">
                         Já registrado <a href="/">sign in?</a>
                     </p>

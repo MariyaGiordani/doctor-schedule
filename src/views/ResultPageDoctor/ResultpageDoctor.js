@@ -1,6 +1,6 @@
 import React from 'react';
 import './ResultPageDoctor.css'
-import SearchDoctor from '../../components/SearchDoctor/searchDoctor'
+import ResultDoctor from '../../components/ResultDoctor/resultDoctor'
 import Calendar from '../../components/Calendar/calendar'
 import mockResultDoctor from '../../utils/mockSearchDoctor';
 import mockSearchDoctor from '../../utils/mockSearchDoctor';
@@ -12,7 +12,7 @@ export default class ResultPageDoctor extends React.Component {
           <div className="result-doctor__title"> 
               <h5>Nome do Médico: Márcio Da Silva</h5>
           </div>
-          <SearchDoctor information={mockSearchDoctor.mockSearchDoctor}></SearchDoctor>
+          <ResultDoctor information={mockSearchDoctor.mockSearchDoctor}></ResultDoctor>
           <Calendar events={mockResultDoctor.mockResultDoctor}/>
         </div>
       )

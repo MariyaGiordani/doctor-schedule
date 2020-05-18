@@ -15,26 +15,39 @@ export default class SearchPage extends Component {
         super(props);
         this.state = {
             name: '',
-            specialty: null
+            specialty: null,
+            hasError:false,
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleChange(event) {
+        const regex = /^[a-zA-Z\s]+$/;
         const target = event.target;
         const value = target.value;
         const name = target.name;
-        this.setState({ [name]: value, hasError: false});
+        const chars = event.target.value.split('');
+        const char = chars.pop();
+        if(name === "name") {
+            if (!regex.test(char)) {
+                event.target.value = chars.join('');
+                console.log(`${char} is not a valid character.`);
+                return false;
+            }
+            this.setState({ [name]: value, hasError: false});
+        }else {
+            if(name === "specialty") {
+                this.setState({ errorSpecialty: false });
+            }
+            this.setState({ [name]: value, hasError: false});
+        }
         
         return true;
     }
 
     handleClick() {
         this.setState({ hasError: false });
-        if(this.state.specialty === null) {
-            this.setState({ errorSpecialty: true });
-        }
 
         if (this.state.specialty === null || this.state.name === "" ) {
           this.setState({ hasError: true });
@@ -54,8 +67,8 @@ export default class SearchPage extends Component {
                     <h3 className="search-page--margin">Pesquisar Médico</h3>
                     <FormControl fullWidth variant="outlined" error={hasError}>
                         <div className="form-group">
-                            <TextField fullWidth name="name" error={this.state.firstName === "" && hasError ? true : false}  value={this.state.firstName} label="Nome do Médico*" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
-                            {this.state.firstName === "" && hasError && <FormHelperText>Digita seu Primeiro nome!</FormHelperText>}
+                            <TextField fullWidth name="name" error={this.state.name === "" && hasError ? true : false}  value={this.state.firstName} label="Nome do Médico*" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
+                            {this.state.name === "" && hasError && <FormHelperText>Digita o nome do doutor!</FormHelperText>}
                         </div>
 
                         <div className="form-group">

@@ -54,8 +54,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function selected(pathname) {
+  var name;
+  pathname === '/' ? name = '/' : name = '/dashboard-patient';
   switch (pathname) {
-    case '/dashboard-patient':
+    case name:
       return 0;
     case '/search-page':
       return 1;
@@ -76,22 +78,24 @@ export default function NavBar() {
   };
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static" color="default">
-        <Tabs
-          value={selected(pathname)}
-          onChange={handleChange}
-          variant="scrollable"
-          scrollButtons="on"
-          indicatorColor="primary"
-          textColor="primary"
-          aria-label="scrollable force tabs example"
-        >
-          <Tab value={0} style={{textDecoration: 'none'}} label="Início" icon={<HomeIcon />} href="/dashboard-patient" {...a11yProps(0)} />
-          <Tab value={1} style={{textDecoration: 'none'}} label="Buscar Médico" icon={<PageviewIcon />} href="/search-page" {...a11yProps(1)} />
-          <Tab value={2} style={{textDecoration: 'none'}} label="Perfil" icon={<PersonPinIcon />} href="/home" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
+    <div className="header">
+      <div className={classes.root}>
+        <AppBar position="static" color="default">
+          <Tabs
+            value={selected(pathname)}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons="on"
+            indicatorColor="primary"
+            textColor="primary"
+            aria-label="scrollable force tabs example"
+          >
+            <Tab value={0} style={{textDecoration: 'none'}} label="Início" icon={<HomeIcon />} href="/dashboard-patient" {...a11yProps(0)} />
+            <Tab value={1} style={{textDecoration: 'none'}} label="Buscar Médico" icon={<PageviewIcon />} href="/search-page" {...a11yProps(1)} />
+            <Tab value={2} style={{textDecoration: 'none'}} label="Perfil" icon={<PersonPinIcon />} href="/home" {...a11yProps(2)} />
+          </Tabs>
+        </AppBar>
+      </div>
     </div>
   );
 }

@@ -37,9 +37,8 @@ export default class SignupPatient extends Component {
             firstName: '',
             lastName:'',
             email:'',
-            crm: '',
             cpf:'',
-            specialty: null,
+            message: '',
             password:'',
             submitted: false,
             submitError: false,
@@ -50,7 +49,7 @@ export default class SignupPatient extends Component {
     }
 
     handleChange(event) {
-        const regex = /[A-Za-z]/;
+        const regex = /^[a-zA-Z\s]+$/;
         const target = event.target;
         const value = target.value;
         const name = target.name;
@@ -70,47 +69,52 @@ export default class SignupPatient extends Component {
         return true;
     }
 
-    handleClick() {
+    handleSubmit(event) {
         this.setState({ hasError: false });
         if(!this.state.cpf.match(/[0-9]{3}\.[0-9]{3}\.[0-9]{3}-[0-9]{2}/)) {
             this.setState({ cpf: ''});
         } 
 
-        if (this.state.specialty === null || this.state.firstName === "" || this.state.lastName === "" || this.state.cpf || this.state.crm === "" || this.state.email === "" || this.state.password === "") {
-          this.setState({ hasError: true });
-        }
-    }
-
-    handleSubmit(event) {
+        let requiredFields = ["firstName", "lastName", "cpf", "email", "password"];
+        let missing = requiredFields.filter(f => { return this.state[f] === undefined || this.state[f] === null || this.state[f] === ''; } );
+        console.log("Missing", missing);
         let data = {
             UserName: this.state.email,
             Password: this.state.password,
             Patient: {
               Cpf: this.state.cpf,
               FirstName: this.state.firstName,
-              LastName: this.state.lastName,
-              Email: this.state.email
+              LastName: this.state.lastName
             },
         }
         event.preventDefault();
         console.log(data); 
-        const URL = `http://localhost:5000/api/Users`;
+        const URL = `https://localhost:44388/api/Users`;
 
-        axios(URL, {
-            method: 'POST',
-            headers: {
-                'Access-Control-Allow-Origin': 'http://localhost:3000',
-                'content-type': 'application/json;',
-                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                'Access-Control-Allow-Headers': '*',
-                'Accept': '/'
-            },
-            data: data,
-        })
-            .then(response => response.data)
-            .catch(error => {
-            throw error;
-        });
+        if (missing.length > 0) {
+            this.setState({ hasError: true });
+        }else {
+            axios(URL, {
+                method: 'POST',
+                headers: {
+                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'content-type': 'application/json;',
+                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                    'Access-Control-Allow-Headers': '*',
+                    'Accept': '/'
+                },
+                data: data,
+            })
+                .then(response => { 
+                    if(response.data.sucesso) {
+                        this.setState({ message: response.data.mensagem, submitted: true });
+                    }else {
+                        this.setState({ message: response.data.mensagem, submitError: true });
+                    }
+                }).catch(error => {
+                    this.setState({ message: error.data.mensagem, submitError: true });
+            });
+        }
     }
 
     render() {
@@ -121,7 +125,7 @@ export default class SignupPatient extends Component {
                     this.state.submitted && 
                     <div className="signup-patient__form">
                         <Alert variant="filled" severity="success">
-                            O registro foi salvo com sucesso!
+                           {this.state.message}
                         </Alert>
                         <img className="signup-patient-img" alt="" src={planilha}/>
                         <p className="forgot-password text-right">
@@ -133,7 +137,7 @@ export default class SignupPatient extends Component {
                     this.state.submitError && 
                      <div className="signup-patient__form">
                         <Alert variant="filled" severity="error">
-                           O registro não fou salvo!
+                            {this.state.message}
                         </Alert>
                         <img className="signup-patient-img" alt="" src={planilha}/>
                         <p className="forgot-password text-right">
@@ -170,7 +174,7 @@ export default class SignupPatient extends Component {
                             {this.state.password === "" && hasError && <FormHelperText>Digita senha!</FormHelperText>}
                         </div>
                     </FormControl>
-                    <button type="submit" className="btn btn-primary btn-block" onClick={() => this.handleClick()}>Inscrever-se</button>
+                    <button type="submit" className="btn btn-primary btn-block">Inscrever-se</button>
                     <p className="forgot-password text-right">
                         Já registrado <a href="/">sign in?</a>
                     </p>

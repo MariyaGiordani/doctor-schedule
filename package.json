@@ -25,6 +25,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "react-text-mask": "^5.4.3",
+    "tailwindcss": "^1.4.6",
     "validar-cpf": "^2.1.2"
   },
   "scripts": {
