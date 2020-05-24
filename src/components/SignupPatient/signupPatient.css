@@ -21,8 +21,7 @@
     padding: 10px 35px;
     position: relative;
     width: 50%;
-    left: 35%;
-    margin-left: -100px;
+    margin:auto;
 }
 
 .signup-patient-img {
