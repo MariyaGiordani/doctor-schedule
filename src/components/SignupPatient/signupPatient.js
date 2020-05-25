@@ -89,7 +89,7 @@ export default class SignupPatient extends Component {
         }
         event.preventDefault();
         console.log(data); 
-        const URL = `https://localhost:44388/api/Users`;
+        const URL = `https://agendamedicoapi.azurewebsites.net/api/Users`;
 
         if (missing.length > 0) {
             this.setState({ hasError: true });

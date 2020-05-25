@@ -6,17 +6,34 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from "@material-ui/core/InputLabel";
 import './SearchPage.css';
 import Select from "@material-ui/core/Select";
-import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
-
+import Avatar from '@material-ui/core/Avatar';
+import PageviewIcon from '@material-ui/icons/Pageview';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import { Redirect } from 'react-router';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+import Alert from '@material-ui/lab/Alert';
+import axios from 'axios';
 
 export default class SearchPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
+            firstName: '',
+            lastName: '',
+            neighborhood: '',
             specialty: null,
             hasError:false,
+            message: '',
+            submitError: false,
+            doctors: false,
+            listDoctors: [],
+            resultDoctor: false
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,7 +46,7 @@ export default class SearchPage extends Component {
         const name = target.name;
         const chars = event.target.value.split('');
         const char = chars.pop();
-        if(name === "name") {
+        if(name === "firstName" || name === "lastName") {
             if (!regex.test(char)) {
                 event.target.value = chars.join('');
                 console.log(`${char} is not a valid character.`);
@@ -55,42 +72,109 @@ export default class SearchPage extends Component {
     }
 
     handleSubmit(event) {
-        event.preventDefault();
+        this.setState({ submitError: false });
+        event.preventDefault(); 
+        const URL = `https://agendamedicoapi.azurewebsites.net/api/Doctors/search`;
+        console.log(this.state);
+        axios.get(URL, {
+            params: {
+                firstName: this.state.firstName,
+                lastname: this.state.lastName,
+                neighborhood: this.state.neighborhood,
+                specialty: this.state.specialty
+            }
+          })
+          .then(response => {
+                console.log(response);
+                if(response.data.length > 1){
+                    this.setState({ listDoctors: response.data, doctors: true });
+                }else {
+                    this.setState({ resultDoctor: true });
+                }
+            }).catch(error => {
+                console.log(error);
+                this.setState({ message: error.response.data.mensagem, submitError: true });
+        });
     }
 
     render() {
-        const { hasError} = this.state;
         return (
             <div className="search-page">
-                {!this.state.submitted && !this.state.submitError &&
                 <form className="search-page__form" onSubmit={this.handleSubmit}>
-                    <h3 className="search-page--margin">Pesquisar Médico</h3>
-                    <FormControl fullWidth variant="outlined" error={hasError}>
-                        <div className="form-group">
-                            <TextField fullWidth name="name" error={this.state.name === "" && hasError ? true : false}  value={this.state.firstName} label="Nome do Médico*" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
-                            {this.state.name === "" && hasError && <FormHelperText>Digita o nome do doutor!</FormHelperText>}
+                    {
+                        this.state.submitError && 
+                        <Alert variant="filled" severity="error">
+                            {this.state.message}
+                        </Alert>
+                    } 
+                    {
+                        this.state.doctors && 
+                        <div>
+                            <TableContainer  component={Paper}>
+                                <Table aria-label="customized table">
+                                    <TableHead style={{backgroundColor: "#3f51b5"}}>
+                                        <TableRow>
+                                            <TableCell style={{color:"white"}}>Ação</TableCell>
+                                            <TableCell style={{color:"white"}} align="left">Name</TableCell>
+                                            <TableCell style={{color:"white"}} align="left">Especialidade</TableCell>
+                                            <TableCell style={{color:"white"}} align="left">Endereço</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                    {this.state.listDoctors.map((item) =>  (
+                                        <TableRow key={item.name}>
+                                            <TableCell component="th" scope="row">
+                                                <Avatar onClick={event => (this.setState({resultDoctor: true}))} style={{backgroundColor:"#3f51b5"}}>
+                                                    <PageviewIcon />
+                                                </Avatar>
+                                            </TableCell>
+                                            <TableCell align="left">{item.firstName + ' ' + item.lastName}</TableCell>
+                                            <TableCell align="left">{item.speciality}</TableCell>
+                                            <TableCell align="left">{item.addresses}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
                         </div>
-
-                        <div className="form-group">
-                            <InputLabel className="signup-doctor--position" error={this.state.errorSpecialty}>Especialidade*</InputLabel>
-                            <Select
-                                fullWidth
-                                error={this.state.errorSpecialty}
-                                name="specialty"
-                                onChange={this.handleChange}
-                                label="Especialidade*"
-                            >
-                                {options.specialtyDoctor.map((option) => (
-                                    <MenuItem key={option.value} value={option.label}>
-                                    {option.label}
-                                    </MenuItem>
-                                ))}
-                            </Select>
-                            {this.state.specialty === null && hasError && <FormHelperText>Escolhe um dos Especialidade!</FormHelperText>}
+                    }
+                    {
+                        !this.state.doctors &&
+                        <div>
+                            <h3 className="search-page--margin">Pesquisar Médico</h3>
+                            <FormControl fullWidth variant="outlined">
+                                <div className="form-group">
+                                    <TextField fullWidth name="firstName"  value={this.state.firstName} label="Primeiro nome do Médico" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
+                                </div>
+                                <div className="form-group">
+                                    <TextField fullWidth name="lastName" value={this.state.lastName} label="Último nome do Médico" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
+                                </div>
+                                <div className="form-group">
+                                    <TextField fullWidth name="neighborhood"  value={this.state.neighborhood} label="Procurar por Bairro" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
+                                </div>
+                                <div className="form-group">
+                                    <InputLabel className="signup-doctor--position">Especialidade</InputLabel>
+                                    <Select
+                                        fullWidth
+                                        name="specialty"
+                                        onChange={this.handleChange}
+                                        label="Especialidade*"
+                                    >
+                                        {options.specialtyDoctor.map((option) => (
+                                            <MenuItem key={option.value} value={option.label}>
+                                            {option.label}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </div>
+                            </FormControl>
+                            <button type="submit" className="btn btn-primary" onClick={() => this.handleClick()}>Pesquisar</button>
                         </div>
-                    </FormControl>
-                    <button type="submit" className="btn btn-primary" onClick={() => this.handleClick()}>Pesquisar</button>
-                </form>}
+                    }
+                </form>
+                {this.state.resultDoctor && (
+                    <Redirect to={'/result-doctor'}/>
+                )}
             </div>
         );
     }

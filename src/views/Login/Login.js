@@ -23,7 +23,7 @@ export default function Login(props) {
     }
 
     event.preventDefault();
-    const URL = `https://localhost:44388/api/Users/Login`;
+    const URL = `https://agendamedicoapi.azurewebsites.net/api/Users/Login`;
     axios(URL, {
         method: 'POST',
         headers: {

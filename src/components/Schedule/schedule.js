@@ -13,7 +13,6 @@ import axios from 'axios';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import moment from "moment";
 
 const BootstrapInput = withStyles((theme) => ({
     root: {
@@ -95,8 +94,8 @@ export default class Schedule extends Component {
     }
 
     render() {
-        const consultationTime = ['15 min', '30 min', '45 min'];
-        const cancelMedicalonsultation = ['12h', '24h', '48h'];
+        const consultationTime = ['15 min', '30 min', '1h'];
+        const cancelMedicalonsultation = ['24h', '48h'];
         return (
             <div className="schedule">
                 <form className="schedule__form" onSubmit={this.handleSubmit}>
