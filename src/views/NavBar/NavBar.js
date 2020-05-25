@@ -10,6 +10,9 @@ import Box from '@material-ui/core/Box';
 import HomeIcon from '@material-ui/icons/Home';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
 import PageviewIcon from '@material-ui/icons/Pageview';
+import ContactsIcon from '@material-ui/icons/Contacts';
+import { userType } from '../../utils/userType';
+import { Redirect } from 'react-router';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -53,21 +56,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function selected(pathname) {
-  var name;
-  pathname === '/' ? name = '/' : name = '/dashboard-patient';
-  switch (pathname) {
-    case name:
-      return 0;
-    case '/search-page':
-      return 1;
-    case '/home':
-      return 2;
-    default:
-      return [];
-  }
-}
-
 export default function NavBar() {
   const pathname = window.location.pathname;
   const classes = useStyles();
@@ -80,21 +68,28 @@ export default function NavBar() {
   return (
     <div className="header">
       <div className={classes.root}>
-        <AppBar position="static" color="default">
-          <Tabs
-            value={selected(pathname)}
-            onChange={handleChange}
-            variant="scrollable"
-            scrollButtons="on"
-            indicatorColor="primary"
-            textColor="primary"
-            aria-label="scrollable force tabs example"
-          >
-            <Tab value={0} style={{textDecoration: 'none'}} label="Início" icon={<HomeIcon />} href="/dashboard-patient" {...a11yProps(0)} />
-            <Tab value={1} style={{textDecoration: 'none'}} label="Buscar Médico" icon={<PageviewIcon />} href="/search-page" {...a11yProps(1)} />
-            <Tab value={2} style={{textDecoration: 'none'}} label="Perfil" icon={<PersonPinIcon />} href="/home" {...a11yProps(2)} />
-          </Tabs>
-        </AppBar>
+          <AppBar position="static" color="default">
+            <Tabs 
+              value={value} 
+              onChange={handleChange} 
+              variant="scrollable"
+              scrollButtons="on"
+              indicatorColor="primary"
+              textColor="primary"
+              aria-label="scrollable force tabs example"
+            >
+              <Tab style={{textDecoration: 'none'}} label="Início" icon={<HomeIcon />} {...a11yProps(0)} />
+              {userType() === "Patient" && <Tab style={{textDecoration: 'none'}} label="Buscar Médico" icon={<PageviewIcon />} {...a11yProps(1)} />}
+              {userType() === "Doctor" && <Tab style={{textDecoration: 'none'}} label="Cadastrar Endereço" icon={<ContactsIcon />} {...a11yProps(1)} />}
+              <Tab style={{textDecoration: 'none'}} label="Perfil" icon={<PersonPinIcon />} {...a11yProps(2)} />
+            </Tabs>
+          </AppBar>
+            {value === 0 && userType() === "Patient" && <Redirect to={'/dashboard-patient'}/>}
+            {value === 1 && userType() === "Patient" && <Redirect to={'/search-page'}/>}
+            {value === 2 && userType() === "Patient" && <Redirect to={'/home'}/>}
+            {value === 0 && userType() === "Doctor" && <Redirect to={'/dashboard-doctor'}/>}
+            {value === 1 && userType() === "Doctor" && <Redirect to={'/schedule-doctor'}/>}
+            {value === 2 && userType() === "Doctor" && <Redirect to={'/home'}/>}
       </div>
     </div>
   );

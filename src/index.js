@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import { showNavBar } from '../src/utils/showNavBar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { BrowserRouter, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 import Login from '../src/views/Login/Login';
 import DashboardDoctor from '../src/views/DashboardDoctor/DashboardDoctor';
@@ -20,10 +20,10 @@ import { userType } from './utils/userType';
 
 const routes = () => (
     <Fragment>
-        {isUserLogged() && userType() === "Patient" && showNavBar()}
+        {isUserLogged() && showNavBar()}
         <Switch>
             {!isUserLogged() && <Route exact path="/" component={Login} />}
-            {isUserLogged() && userType() === "Doctor" ? <Route exact path="/" component={DashboardDoctor} /> : <Route exact path="/" component={DashboardPatient} />}
+            {isUserLogged() && userType() === "Doctor" ? <Route exact path="/dashboard-doctor" component={DashboardDoctor} /> : <Route exact path="/dashboard-patient" component={DashboardPatient} />}
             <Route path="/home" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/dashboard-doctor" component={DashboardDoctor} />

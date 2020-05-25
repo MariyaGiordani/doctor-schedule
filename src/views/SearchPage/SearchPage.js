@@ -118,19 +118,25 @@ export default class SearchPage extends Component {
                                             <TableCell style={{color:"white"}} align="left">Name</TableCell>
                                             <TableCell style={{color:"white"}} align="left">Especialidade</TableCell>
                                             <TableCell style={{color:"white"}} align="left">Endereço</TableCell>
+                                            <TableCell style={{color:"white"}} align="left">Endereço 2</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>
                                     {this.state.listDoctors.map((item) =>  (
-                                        <TableRow key={item.name}>
+                                        <TableRow key={item.$id}>
                                             <TableCell component="th" scope="row">
                                                 <Avatar onClick={event => (this.setState({resultDoctor: true}))} style={{backgroundColor:"#3f51b5"}}>
                                                     <PageviewIcon />
                                                 </Avatar>
                                             </TableCell>
-                                            <TableCell align="left">{item.firstName + ' ' + item.lastName}</TableCell>
-                                            <TableCell align="left">{item.speciality}</TableCell>
-                                            <TableCell align="left">{item.addresses}</TableCell>
+                                            <TableCell align="left">{item.FirstName + ' ' + item.LastName}</TableCell>
+                                            <TableCell align="left">{item.Speciality}</TableCell>
+                                            {console.log(item.Addresses)}
+                                            {item.Addresses.map((item) =>  (
+                                                <TableCell align="left">{item.Street}</TableCell>
+                                            ))}
+                                            {item.Addresses.length < 1 && <TableCell align="left">{item.Addresses.Street}</TableCell>}
+                                            {item.Addresses.length < 1 && <TableCell align="left">{}</TableCell>}
                                         </TableRow>
                                     ))}
                                     </TableBody>

@@ -1,4 +1,4 @@
 export function userType() {
-    const user_storage = localStorage.getItem('user');
+    const user_storage = sessionStorage.getItem('user');
     return user_storage;
 }

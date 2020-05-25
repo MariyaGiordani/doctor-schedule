@@ -1,14 +1,11 @@
 import React, { useState } from "react";
 import "./Login.css";
 import axios from 'axios';
-import { Redirect } from 'react-router';
 import Alert from '@material-ui/lab/Alert';
 
 export default function Login(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [toDashboardDoctor, setToDashboardDoctor] = useState(false);
-  const [toDashboardPatient, setToDashboardPatient] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState(false);
 
@@ -23,7 +20,7 @@ export default function Login(props) {
     }
 
     event.preventDefault();
-    const URL = `https://agendamedicoapi.azurewebsites.net/api/Users/Login`;
+    const URL = `https://localhost:44388/api/Users/Login`;
     axios(URL, {
         method: 'POST',
         headers: {
@@ -36,9 +33,10 @@ export default function Login(props) {
         data: data
     })
         .then(response => { 
-          localStorage.setItem("token", response.data.Objeto.Password);
-          localStorage.setItem("user", response.data.Objeto.Patient === null ? "Doctor" : "Patient");
-          response.data.Objeto.Patient === null ? setToDashboardDoctor(true) : setToDashboardPatient(true);
+          sessionStorage.setItem("token", response.data.Objeto.Password);
+          sessionStorage.setItem("user", response.data.Objeto.Patient === null ? "Doctor" : "Patient");
+          response.data.Objeto.Patient === null ? sessionStorage.setItem("code", response.data.Objeto.Doctor.Cpf): sessionStorage.setItem("code", response.data.Objeto.Patient.Cpf);
+          window.location.reload();
       }).catch(error => {
         setMessage(error.response.data.mensagem);
         setError(true);
@@ -80,12 +78,6 @@ export default function Login(props) {
               <a href="/signup">Crie uma</a>
           </div>
         </form>
-        {toDashboardPatient && (
-          <Redirect to={'/dashboard-patient'}/>
-        )}
-        {toDashboardDoctor && (
-          <Redirect to={'/dashboard-doctor'}/>
-        )}
     </div>
   );
 }
