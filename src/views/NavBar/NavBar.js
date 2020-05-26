@@ -11,8 +11,11 @@ import HomeIcon from '@material-ui/icons/Home';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
 import PageviewIcon from '@material-ui/icons/Pageview';
 import ContactsIcon from '@material-ui/icons/Contacts';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { userType } from '../../utils/userType';
 import { Redirect } from 'react-router';
+import {logOut} from '../../utils/logOut';
+import { isUserLogged} from '../../utils/isUserLogged'
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -57,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function NavBar() {
-  const pathname = window.location.pathname;
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
@@ -79,9 +81,10 @@ export default function NavBar() {
               aria-label="scrollable force tabs example"
             >
               <Tab style={{textDecoration: 'none'}} label="Início" icon={<HomeIcon />} {...a11yProps(0)} />
-              {userType() === "Patient" && <Tab style={{textDecoration: 'none'}} label="Buscar Médico" icon={<PageviewIcon />} {...a11yProps(1)} />}
-              {userType() === "Doctor" && <Tab style={{textDecoration: 'none'}} label="Cadastrar Endereço" icon={<ContactsIcon />} {...a11yProps(1)} />}
+              {userType() === "Patient" && isUserLogged() && <Tab style={{textDecoration: 'none'}} label="Buscar Médico" icon={<PageviewIcon />} {...a11yProps(1)} />}
+              {userType() === "Doctor" && isUserLogged() && <Tab style={{textDecoration: 'none'}} label="Cadastrar Endereço" icon={<ContactsIcon />} {...a11yProps(1)} />}
               <Tab style={{textDecoration: 'none'}} label="Perfil" icon={<PersonPinIcon />} {...a11yProps(2)} />
+              <Tab style={{textDecoration: 'none'}} label="Sair" icon={<ExitToAppIcon />} href="/" {...a11yProps(3)} />
             </Tabs>
           </AppBar>
             {value === 0 && userType() === "Patient" && <Redirect to={'/dashboard-patient'}/>}
@@ -90,6 +93,7 @@ export default function NavBar() {
             {value === 0 && userType() === "Doctor" && <Redirect to={'/dashboard-doctor'}/>}
             {value === 1 && userType() === "Doctor" && <Redirect to={'/schedule-doctor'}/>}
             {value === 2 && userType() === "Doctor" && <Redirect to={'/home'}/>}
+            {value === 3 && logOut()}
       </div>
     </div>
   );

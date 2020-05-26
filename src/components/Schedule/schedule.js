@@ -55,7 +55,8 @@ export default class Schedule extends Component {
         super(props);
         this.state = {
            cep: null,
-           information:'',
+           healthCare:'',
+           information: '',
            telephone: null,
            city: '',
            neighborhood: '',
@@ -67,7 +68,7 @@ export default class Schedule extends Component {
            startWorkHour: null,
            endWorkHour: null,
            consultationTime: '',
-           cancelMedicalonsultation: '',
+           cancelMedicalConsultation: '',
            daysOfWeek: []
         };
     }
@@ -90,12 +91,55 @@ export default class Schedule extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-       console.log(this.state);
+        let data = {
+            RoadType: "",
+            Street: this.state.address,
+            Number: this.state.number,
+            Neighborhood: this.state.neighborhood,
+            Complement: this.state.aditionalInf,
+            PostalCode: this.state.cep,
+            City: this.state.city,
+            UF: "",
+            Information: this.state.information,
+            Cpf: sessionStorage.getItem('code'),
+            AddressAction: 1,
+            TimeSheet: {
+                StartDate: this.state.startWorkHour,
+                EndDate: this.state.endWorkHour,
+                LunchStartDate: this.state.startLunchHour,
+                LunchEndDate: this.state.endLunchHour,
+                AppointmentDuration: this.state.consultationTime,
+                Cpf: sessionStorage.getItem('code'),
+                AppointmentCancelTime: this.state.cancelMedicalConsultation,
+                DaysOfTheWeeks: this.state.daysOfWeek
+            },
+            Telephone: this.state.telephone,
+            HealthCare: this.state.healthCare
+        }
+
+        const URL = `https://agendamedicoapi.azurewebsites.net/api/Addresses`;
+
+        axios(URL, {
+            method: 'POST',
+            headers: {
+                'Access-Control-Allow-Origin': 'http://localhost:3000',
+                'content-type': 'application/json;',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                'Access-Control-Allow-Headers': '*',
+                'Accept': '/'
+            },
+            data: data,
+        })
+            .then(response => { 
+                console.log(response);
+            }).catch(error => {
+                console.log(error);
+        });
     }
 
     render() {
         const consultationTime = ['15 min', '30 min', '1h'];
-        const cancelMedicalonsultation = ['24h', '48h'];
+        const cancelMedicalConsultation = ['24h', '48h'];
         return (
             <div className="schedule">
                 <form className="schedule__form" onSubmit={this.handleSubmit}>
@@ -205,7 +249,7 @@ export default class Schedule extends Component {
                     <div className="schedule--flex">
                         <div className="schedule--flex">
                                 <InputLabel style={{color: "black", fontWeight: "600", padding:"15px", width: "50%"}} htmlFor="bootstrap-input">Tempo máximo para cancelar consulta</InputLabel>
-                                <Dropdown options={cancelMedicalonsultation} onChange={event => (this.setState({cancelMedicalonsultation: event.label}))} value={this.state.cancelMedicalonsultation} placeholder="Selecione" />
+                                <Dropdown options={cancelMedicalConsultation} onChange={event => (this.setState({cancelMedicalConsultation: event.label}))} value={this.state.cancelMedicalConsultation} placeholder="Selecione" />
                         </div>
                         <div className="schedule--flex">
                                 <InputLabel style={{color: "black", fontWeight: "600", padding:"15px", width: "50%"}} htmlFor="bootstrap-input">Tempo para cada consulta</InputLabel>
@@ -217,9 +261,10 @@ export default class Schedule extends Component {
                         className="information"
                         style={{borderRadius: "5px", height: "80px"}}
                         rowsMax={6}
+                        name="healthCare"
                         aria-label="maximum height width"
                         placeholder=""
-                        value={this.state.information}
+                        value={this.state.healthCare}
                         onChange={this.handleChange}
                     />
                     <InputLabel style={{color: "black", fontWeight: "600", marginTop: "20px"}} htmlFor="bootstrap-input">Observações adicionais</InputLabel>
@@ -227,6 +272,7 @@ export default class Schedule extends Component {
                         className="information"
                         style={{borderRadius: "5px", height: "80px", marginBottom: "10px"}}
                         rowsMax={6}
+                        name="information"
                         aria-label="maximum height width"
                         placeholder=""
                         value={this.state.information}
