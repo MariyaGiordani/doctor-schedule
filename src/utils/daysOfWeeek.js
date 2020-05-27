@@ -1,11 +1,11 @@
 const daysOfWeek = [
-    { value: 1 , label: 'S' , name:'Segunda'},
-    { value: 2 , label: 'T' , name:'Terça'},
-    { value: 3 , label: 'Q' , name:'Quarta'},
-    { value: 4 , label: 'Q' , name:'Quinta'},
-    { value: 5 , label: 'S' , name:'Sexta'},
-    { value: 6 , label: 'S' , name:'Sabado'},
-    { value: 7 , label: 'D' , name:'Domingo'},
+    { value: 1 , label: 'S' , Id: 0, Name: 1},
+    { value: 2 , label: 'T' , Id: 0, Name: 2},
+    { value: 3 , label: 'Q' , Id: 0, Name: 3},
+    { value: 4 , label: 'Q' , Id: 0, Name: 4},
+    { value: 5 , label: 'S' , Id: 0, Name: 5},
+    { value: 6 , label: 'S' , Id: 0, Name: 6},
+    { value: 7 , label: 'D' , Id: 0, Name: 0},
 ];
   
   export default { daysOfWeek };

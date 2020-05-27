@@ -1,7 +1,8 @@
 .result-doctor {
     border: 1px solid #778899;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 10px;
-    margin: 50px;
+    margin: 100px 50px;
 }
 
 .result-doctor__title {

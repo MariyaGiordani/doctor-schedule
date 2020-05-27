@@ -23,7 +23,7 @@ const routes = () => (
         {isUserLogged() && showNavBar()}
         <Switch>
             {!isUserLogged() && <Route exact path="/" component={Login} />}
-            {isUserLogged() && userType() === "Doctor" ? <Route exact path="/dashboard-doctor" component={DashboardDoctor} /> : <Route exact path="/dashboard-patient" component={DashboardPatient} />}
+            {/* {isUserLogged() && userType() === "Doctor" ? <Route exact path="/dashboard-doctor" component={DashboardDoctor} /> : <Route exact path="/dashboard-patient" component={DashboardPatient} />} */}
             <Route path="/home" component={Home} />
             <Route path="/login" component={Login} />
             <Route path="/dashboard-doctor" component={DashboardDoctor} />

@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import Alert from '@material-ui/lab/Alert';
 import './signupPatient.css';
 import PropTypes from 'prop-types';
-import planilha from '../../assets/img/planilha.jpg'
+import planilha from '../../assets/img/planilha.jpg';
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import axios from 'axios';
