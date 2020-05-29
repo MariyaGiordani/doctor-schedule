@@ -33,7 +33,8 @@ export default class SearchPage extends Component {
             submitError: false,
             doctors: false,
             listDoctors: [],
-            resultDoctor: false
+            resultDoctor: false,
+            doctor: []
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -75,7 +76,6 @@ export default class SearchPage extends Component {
         this.setState({ submitError: false });
         event.preventDefault(); 
         const URL = `https://agendamedicoapi.azurewebsites.net/api/Doctors/search`;
-        console.log(this.state);
         axios.get(URL, {
             params: {
                 firstName: this.state.firstName,
@@ -98,6 +98,7 @@ export default class SearchPage extends Component {
     }
 
     render() {
+        const {doctor} = this.state;
         return (
             <div className="search-page">
                 <form className="search-page__form" onSubmit={this.handleSubmit}>
@@ -125,7 +126,8 @@ export default class SearchPage extends Component {
                                     {this.state.listDoctors.map((item) =>  (
                                         <TableRow key={item.$id}>
                                             <TableCell component="th" scope="row">
-                                                <Avatar onClick={event => (this.setState({resultDoctor: true}))} style={{backgroundColor:"#3f51b5"}}>
+                                                {console.log("Doctor", item.$id, item)}
+                                                <Avatar onClick={event => (this.setState({resultDoctor: true, doctor: item}))} style={{backgroundColor:"#3f51b5"}}>
                                                     <PageviewIcon />
                                                 </Avatar>
                                             </TableCell>
@@ -133,7 +135,7 @@ export default class SearchPage extends Component {
                                             <TableCell align="left">{item.Speciality}</TableCell>
                                             {console.log(item.Addresses)}
                                             {item.Addresses.map((item) =>  (
-                                                <TableCell align="left">{item.Street}</TableCell>
+                                                <TableCell key={item.$id} align="left">{item.Street}</TableCell>
                                             ))}
                                             {item.Addresses.length < 1 && <TableCell align="left">{item.Addresses.Street}</TableCell>}
                                             {item.Addresses.length < 1 && <TableCell align="left">{}</TableCell>}
@@ -179,7 +181,7 @@ export default class SearchPage extends Component {
                     }
                 </form>
                 {this.state.resultDoctor && (
-                    <Redirect to={'/result-doctor'}/>
+                    <Redirect to={{ pathname: '/result-doctor', state: {doctor}}} />
                 )}
             </div>
         );

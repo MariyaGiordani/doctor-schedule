@@ -77,6 +77,7 @@ export default class Schedule extends Component {
            message: '',
            submitted: false,
            submitError: false,
+           alert: false
         };
     }
 
@@ -94,6 +95,11 @@ export default class Schedule extends Component {
         this.setState({ [name]: value, hasError: false});
         
         return true;
+    }
+
+    getAddresses = () => {
+        const URL = `curl -X GET "https://agendamedicoapi.azurewebsites.net/api/Addresses/GetAddresses`;
+        axios.get(URL, { params: { cpf: sessionStorage.getItem('code')}}).then(response => {return response.data.length;});
     }
 
     handleSubmit = (event) => {
@@ -129,10 +135,12 @@ export default class Schedule extends Component {
             HealthCare: this.state.healthCare
         }
 
+        let addresses = this.getAddresses();
+
         const URL = `https://agendamedicoapi.azurewebsites.net/api/Addresses`;
         if (missing.length > 0) {
             this.setState({ hasError: true });
-        }else {
+        }else if(addresses < 2) {
             axios(URL, {
                 method: 'POST',
                 headers: {
@@ -151,6 +159,9 @@ export default class Schedule extends Component {
                     console.log(error);
                     this.setState({ message: error.response.data.mensagem, submitError: true });
             });
+        } else {
+            let mensagem = "Não é possivel cadastrar outro endereço porque tem cadastrados dois!"
+            this.setState({ message: mensagem, alert: true });
         }
     }
 
@@ -162,26 +173,26 @@ export default class Schedule extends Component {
             <div className="schedule">
                 {
                     this.state.submitted && 
-                    <div className="signup-patient__form">
+                    <div className="schedule__form">
                         <Alert variant="filled" severity="success">
                            {this.state.message}
                         </Alert>
-                        <img className="signup-patient-img" alt="" src={planilha}/>
-                        <p className="forgot-password text-right">
-                           Gostaria de cadastrar outro endereço? <a href="/schedule-doctor">Clica aqui!</a>
-                        </p>
                     </div>
                 }  
                 {
-                    this.state.submitError && 
-                     <div className="signup-patient__form">
+                    (this.state.submitError || this.state.alert) &&
+                     <div className="schedule__form">
                         <Alert variant="filled" severity="error">
                             {this.state.message}
                         </Alert>
-                        <img className="signup-patient-img" alt="" src={planilha}/>
-                        <p className="forgot-password text-right">
-                            Volta para <a href="/schedule-doctor">pagina de cadastro de endereço</a>
-                        </p>
+                        { !this.state.alert &&
+                            <div> 
+                                <img className="signup-patient-img" alt="" src={planilha}/>
+                                <p className="forgot-password text-right">
+                                    Volta para <a href="/schedule-doctor">pagina de cadastro de endereço</a>
+                                </p>
+                            </div>
+                        }
                     </div>
                 }
                 {!this.state.submitted && !this.state.submitError &&

@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function NavBar() {
+  let pathname = window.location.pathname
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
 

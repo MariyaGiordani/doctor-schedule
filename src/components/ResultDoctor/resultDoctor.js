@@ -24,27 +24,40 @@ export default class SearchDoctor extends Component {
     }
 
     render() {
+        const {mockSearchDoctor} = this.state;
         return (
-            <div className="search-doctor">
-                <List> 
-                    {this.state.mockSearchDoctor.map((item) => (
-                        <ListItem key={item.key}>
-                            {item.title} 
-                            <ListItemText primary={item.information} />
+            <div>
+            {mockSearchDoctor.doctor.Addresses.map((option) => (
+                <div className="search-doctor">
+                    <List key={option.$id}> 
+                        <ListItem>
+                            Endereço: &nbsp;
+                            <ListItemText className="title" primary={option.Street + " , " + option.Number} />
                         </ListItem>
-                    ))}
-                </List>
-                <div className="search-doctor__information">
-                    <h6>Informações Extras: </h6>
-                    <TextareaAutosize
-                        className="information"
-                        rowsMax={4}
-                        aria-label="maximum height width"
-                        placeholder=""
-                        value={this.state.information}
-                        onChange={this.handleChange}
-                    />
+                        <ListItem>
+                            Telefone: &nbsp;
+                            <ListItemText primary={option.Telephone} />
+                        </ListItem>
+                        <ListItem>
+                            Horário de Atendimento: &nbsp;
+                            <ListItemText  />
+                        </ListItem>
+                        <ListItem>
+                            Planos de Saúde: &nbsp;
+                            <ListItemText className="title" primary={option.HealthCare} />
+                        </ListItem>
+                    </List>
+                    <div className="search-doctor__information">
+                        <ListItem style={{display: "block"}}>
+                            Informações Extras: &nbsp;
+                            {option.Information === "" ?
+                                <ListItemText primary="Não tem informação adicional!" /> :
+                                <ListItemText className="title" primary={option.Information} />
+                            }
+                        </ListItem>
+                    </div>
                 </div>
+            ))}
             </div>
         );
     }

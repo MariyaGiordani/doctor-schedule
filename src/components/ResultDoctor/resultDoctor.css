@@ -16,3 +16,12 @@
 .information {
     width: 100%;
 }
+
+.title {
+    text-transform: lowercase;
+    display: inline-block;
+}
+
+.title::first-line {
+    text-transform: capitalize;
+}
