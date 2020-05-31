@@ -3,10 +3,11 @@
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 10px;
     margin: 100px 50px;
+    padding-bottom: 4em;
 }
 
 .result-doctor__title {
-    background-color: #3788d8;
+    background-color: #3f51b5;
     color: white;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;

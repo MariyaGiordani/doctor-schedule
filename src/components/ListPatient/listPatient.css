@@ -1,0 +1,31 @@
+.list-patient {
+    font-weight: bolder;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    border: 1px solid #778899;
+    background-color: #F0F8FF;
+    border-radius: 10px;
+    padding: 3em;
+    position: relative;
+    width: 80%;
+    left: 10%;
+    margin-top: 10em;
+}
+
+.list-patient__spinner {
+    font-weight: bolder;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+    border: 1px solid #778899;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+    padding: 20px 35px;
+    background-color: #E6E6FA;
+    position: relative;
+    width: 80%;
+    margin: auto;
+}

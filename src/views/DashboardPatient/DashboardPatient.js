@@ -1,16 +1,14 @@
 import React from 'react';
 import mockPatientEvents from '../../utils/mockPatientEvents';
+import ListPatient from '../../components/ListPatient/listPatient'
 import './DashboardPatient.css';
-import Calendar from '../../components/Calendar/calendar';
 
 export default class DashboardPatient extends React.Component {
    render(){
     return (
-      <div>
         <div className="dashboard-patient">
-          <Calendar events={mockPatientEvents.mockDoctorEvents}/>
+           <ListPatient/>
         </div>
-      </div>
       )
     }
 }

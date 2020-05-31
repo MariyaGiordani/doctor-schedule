@@ -89,7 +89,7 @@ export default class SearchPage extends Component {
                 if(response.data.length > 1){
                     this.setState({ listDoctors: response.data, doctors: true });
                 }else {
-                    this.setState({ resultDoctor: true });
+                    this.setState({ resultDoctor: true, doctor: response.data[0]});
                 }
             }).catch(error => {
                 console.log(error);
@@ -155,7 +155,7 @@ export default class SearchPage extends Component {
                                     <TextField fullWidth name="firstName"  value={this.state.firstName} label="Primeiro nome do Médico" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
                                 </div>
                                 <div className="form-group">
-                                    <TextField fullWidth name="lastName" value={this.state.lastName} label="Último nome do Médico" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
+                                    <TextField fullWidth name="lastName" value={this.state.lastName} label="Sobrenome do Médico" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
                                 </div>
                                 <div className="form-group">
                                     <TextField fullWidth name="neighborhood"  value={this.state.neighborhood} label="Procurar por Bairro" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />

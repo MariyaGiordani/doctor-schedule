@@ -25,3 +25,8 @@
 .title::first-line {
     text-transform: capitalize;
 }
+
+.title-message {
+    padding: 1em;
+    color: red;
+}

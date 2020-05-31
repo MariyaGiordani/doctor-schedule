@@ -1,8 +1,12 @@
 .dashboard-patient {
-    border: 1px solid #778899;
-    border-radius: 10px;
-    margin: 50px;
-    margin-top: 7em;
+    min-height: 100vh;
+    background-image: url("../../assets/img/agenda.jpg");
+    padding: 40px;
+    font-weight: bolder;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
 }
 
 .dashboard-patient__doctor {

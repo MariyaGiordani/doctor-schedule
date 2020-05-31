@@ -55,19 +55,3 @@
     border-radius: 4px;
     font-size: 300;
 }
-
-.schedule__form {
-    font-weight: bolder;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    position: relative;
-    border: 1px solid #778899;
-    background-color: #F0F8FF;
-    border-radius: 10px;
-    padding: 10px 35px;
-    position: relative;
-    width: 50%;
-    margin:auto;
-    margin-bottom: 30px;
-}
