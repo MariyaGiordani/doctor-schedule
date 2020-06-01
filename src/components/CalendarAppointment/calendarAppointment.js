@@ -39,12 +39,12 @@ export default class CalendarAppointment extends React.Component {
         this.setState({ modal: !this.state.modal, response: false, error: false, data: null, time: null });
     };
     
-    handleEventClick = (event) => {
+    handleEventClick = async(event) => {
         this.toggle();
         this.setState({ date: event.date });
         console.log(event.dateStr);
         const URL = `https://agendamedicoapi.azurewebsites.net/api/Appointments/GetAvailability`;
-        axios.get(URL, { 
+        await axios.get(URL, { 
             params: { 
                 cpf: this.state.address.Cpf,
                 appointmentDate: event.dateStr,
@@ -52,7 +52,8 @@ export default class CalendarAppointment extends React.Component {
             }}).then(response => {
                 this.setState({availability: response.data})
                 }).catch(error => {
-                console.log(error)
+                console.log(error.response.data.mensagem);
+                this.setState({response: true, message: error.response.data.mensagem})
             });
         console.log(this.state.availability)
     };

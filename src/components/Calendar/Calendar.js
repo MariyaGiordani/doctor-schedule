@@ -10,13 +10,25 @@ import '@fullcalendar/list/main.css';
 import '@fullcalendar/timegrid/main.css';
 import './calendar.css'
 import ptBrLocale from '@fullcalendar/core/locales/pt-br';
+import axios from 'axios';
 
 export default class Calendar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            events: props.events
+            events: []
         };
+    }
+    
+    componentWillMount() {
+      const URL = `https://agendamedicoapi.azurewebsites.net/api/Appointments/GetAppointments`;
+      axios.get(URL, { params: { cpf: sessionStorage.getItem('code')}}).then(response => {
+          console.log(response.data);
+          let events = response.data.map((option) => (
+            { title: option.patientFirstName + " " + option.patientLastName,  start: option.appointmentTime}
+          ));
+          this.setState({events: events})
+      });
     }
 
     render() {

@@ -77,7 +77,8 @@ export default class Schedule extends Component {
            message: '',
            submitted: false,
            submitError: false,
-           alert: false
+           alert: false,
+           addressLength: null
         };
     }
 
@@ -98,8 +99,10 @@ export default class Schedule extends Component {
     }
 
     getAddresses = () => {
-        const URL = `curl -X GET "https://agendamedicoapi.azurewebsites.net/api/Addresses/GetAddresses`;
-        axios.get(URL, { params: { cpf: sessionStorage.getItem('code')}}).then(response => {return response.data.length;});
+        const URL = `https://agendamedicoapi.azurewebsites.net/api/Addresses/GetAddresses`;
+        axios.get(URL, { params: { cpf: sessionStorage.getItem('code')}}).then(response => {
+            this.setState({addressLength: response.data.length});
+        });
     }
 
     handleSubmit = (event) => {
@@ -135,12 +138,10 @@ export default class Schedule extends Component {
             HealthCare: this.state.healthCare
         }
 
-        let addresses = this.getAddresses();
-
         const URL = `https://agendamedicoapi.azurewebsites.net/api/Addresses`;
         if (missing.length > 0) {
             this.setState({ hasError: true });
-        }else if(addresses < 2) {
+        }else if(this.state.addressLength < 2) {
             axios(URL, {
                 method: 'POST',
                 headers: {
@@ -169,6 +170,7 @@ export default class Schedule extends Component {
         const { hasError} = this.state;
         const consultationTime = ['15 min', '30 min', '1h'];
         const cancelMedicalConsultation = ['24h', '48h'];
+        this.getAddresses();
         return (
             <div className="schedule">
                 {
@@ -349,8 +351,8 @@ export default class Schedule extends Component {
                             onChange={this.handleChange}
                         />
                         <div className="schedule--flex schedule--margin">
-                            <button type="submit" style={{marginRight: "10px"}} className="btn btn-primary" onSubmit={this.handleSubmit}>Criar Agenda</button>
-                            <button type="submit" className="btn btn-primary">Adicionar novo endereço</button>
+                            {this.state.addressLength < 1 && <button type="submit" style={{marginRight: "10px"}} className="btn btn-primary" onSubmit={this.handleSubmit}>Criar Agenda</button>}
+                            {this.state.addressLength === 1 && <button type="submit" className="btn btn-primary">Adicionar novo endereço</button>}
                         </div>
                     </form>
                 }
