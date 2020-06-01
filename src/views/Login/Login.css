@@ -1,4 +1,4 @@
-@media all and (max-width: 500px) {
+@media all and (max-width: 600px) {
    .login form {
     margin: 0 auto;
     max-width: 320px;
@@ -9,6 +9,8 @@
     display: flex;
     margin: auto !important;
     padding: 60px 0;
+    background-position: inherit !important;
+    background-position-y: 20% !important;
   }
 
   .login__form{
@@ -18,24 +20,27 @@
   }
 }
 
-@media all and (min-width: 501px) {
+@media all and (min-width: 601px) and (max-width: 1024px) {
   .login {
     background-image: url("../../assets/img/ImagemLogin.jpeg");
+    background-position-x: 60%;
  }
 
   .login__form{
-    margin-right: 15%;
-    margin-top: 7%;
+    margin-right: 5%;
+    margin-top: 5%;
   }
 }
 
-@media all and (min-width: 1000px) {
+@media all and (min-width: 1025px) {
   .login {
     background-image: url("../../assets/img/ImagemLogin.jpeg");
+    background-position: inherit !important;
+    background-position-y: 20% !important;
  }
 
   .login__form{
-    margin-right: 15%;
+    margin-right: 10%;
     margin-top: 7%;
   }
 }
@@ -43,7 +48,7 @@
 .login {
   min-height: 100vh;
   height: 100%;
-  background-position: 33%;
+  background-position: 60%;
   background-repeat: no-repeat;
   background-size: cover;
   background-color: #a9a9a9;
