@@ -25,7 +25,7 @@ export default class Calendar extends React.Component {
       axios.get(URL, { params: { cpf: sessionStorage.getItem('code')}}).then(response => {
           console.log(response.data);
           let events = response.data.map((option) => (
-            { title: option.patientFirstName + " " + option.patientLastName,  start: option.appointmentTime}
+            { title: option.patientFirstName + " " + option.patientLastName,  start: option.appointmentTime, end: option.appointmentEndTime}
           ));
           this.setState({events: events})
       });

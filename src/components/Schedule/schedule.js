@@ -78,7 +78,8 @@ export default class Schedule extends Component {
            submitted: false,
            submitError: false,
            alert: false,
-           addressLength: null
+           addressLength: null,
+           secondAddress: false
         };
     }
 
@@ -174,7 +175,7 @@ export default class Schedule extends Component {
         return (
             <div className="schedule">
                 {
-                    this.state.submitted && 
+                    this.state.submitted &&
                     <div className="schedule__form">
                         <Alert variant="filled" severity="success">
                            {this.state.message}
