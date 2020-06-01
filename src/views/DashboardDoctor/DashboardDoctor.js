@@ -1,6 +1,6 @@
 import React from 'react';
 import mockDoctorEvents from '../../utils/mockDoctorEvent';
-import Calendar from '../../components/Calendar/calendar';
+import Calendar from '../../components/Calendar/Calendar';
 import './DashboardDoctor.css';
 
 export default class DashboardDoctor extends React.Component {
