@@ -21,8 +21,12 @@ export default class SearchDoctor extends Component {
     }
 
     componentWillMount() {
-       this.state.doctors.doctor.Addresses.length > 1 ? this.setState({avatar: true}) : this.setState({avatar: false});
+       this.state.doctors.doctor.Addresses.length > 1 ? this.setState({avatar: true}) : this.setState({avatar: false, addressDoctor: this.state.doctors.doctor.Addresses[0]});
        this.setState({message: "Atenção este médico atende em duas localidades. Escolha endereço clicando no check."})
+    }
+
+    handleDays = (day) => {
+        return ["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sabado"][day];
     }
 
     render() {
@@ -37,7 +41,7 @@ export default class SearchDoctor extends Component {
                 <div>
                     {(option.$id === id || id === null) &&
                         <div className="search-doctor">
-                            {console.log(option)}
+                            {console.log("Option",option)}
                             { avatar &&
                                 <Avatar onClick={event => (this.setState({calendar: true, addressDoctor: option, id: option.$id, avatar: false, message: newMessage}))} style={{backgroundColor:"#3f51b5"}}>
                                     <CheckCircleIcon />
@@ -54,7 +58,13 @@ export default class SearchDoctor extends Component {
                                 </ListItem>
                                 <ListItem>
                                     Horário de Atendimento: &nbsp;
-                                    <ListItemText  />
+                                    <ListItemText className="title" 
+                                       primary={
+                                           option.TimeSheet.DaysOfTheWeeks.map((option) => (this.handleDays(option.Name))) + " " +
+                                           new Date(option.TimeSheet.StartDate).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})
+                                            + " as " + 
+                                           new Date(option.TimeSheet.EndDate).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})}
+                                    />
                                 </ListItem>
                                 <ListItem>
                                     Planos de Saúde: &nbsp;

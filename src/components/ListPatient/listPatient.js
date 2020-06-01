@@ -26,7 +26,7 @@ export default class ListPatient extends React.Component {
             params: { 
                 cpf: sessionStorage.getItem('code')
             }}).then(response => {
-                this.setState({appointments: response.data})
+                this.setState({appointments: response.data});
             });
     }
 
@@ -48,7 +48,7 @@ export default class ListPatient extends React.Component {
                         </TableHead>
                         <TableBody>
                         {this.state.appointments.map((item) =>  (
-                            <TableRow key={item.appointmentId}>
+                            <TableRow key={item.address.addressId}>
                                 {console.log(item.appointmentTime)}
                                 <TableCell component="th" scope="row">
                                     <Avatar style={{backgroundColor:"#3f51b5"}}>
@@ -56,9 +56,9 @@ export default class ListPatient extends React.Component {
                                     </Avatar>
                                 </TableCell>
                                 <TableCell align="left">{new Date(item.appointmentTime).toLocaleDateString()}</TableCell>
-                                <TableCell align="left">{new Date(item.appointmentTime).toLocaleTimeString()}</TableCell>
-                                <TableCell align="left">{item.doctor}</TableCell>
-                                <TableCell align="left">{item.address}</TableCell>
+                                <TableCell align="left">{new Date(item.appointmentTime).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})}</TableCell>
+                                <TableCell align="left">{item.doctorFirstName + " " + item.doctorLastName}</TableCell>
+                                <TableCell align="left">{item.address.street}</TableCell>
                             </TableRow>
                         ))}
                         </TableBody>
