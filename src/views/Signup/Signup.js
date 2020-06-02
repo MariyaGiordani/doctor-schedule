@@ -20,7 +20,7 @@ export default function Signup(props) {
             </div>
             <div className="signup__item">
                 <Link to="/signup-patient">
-                    <img className="signup__img-petient" alt="" src={team}/>
+                    <img className="signup__img-patient" alt="" src={team}/>
                     <br/>
                     Cadastro de Paciente
                 </Link>

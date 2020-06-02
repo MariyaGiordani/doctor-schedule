@@ -90,10 +90,10 @@ export default function NavBar() {
           </AppBar>
             {value === 0 && userType() === "Patient" && <Redirect to={'/dashboard-patient'}/>}
             {value === 1 && userType() === "Patient" && <Redirect to={'/search-page'}/>}
-            {value === 2 && userType() === "Patient" && <Redirect to={'/home'}/>}
+            {value === 2 && userType() === "Patient" && <Redirect to={'/profile'}/>}
             {value === 0 && userType() === "Doctor" && <Redirect to={'/dashboard-doctor'}/>}
             {value === 1 && userType() === "Doctor" && <Redirect to={'/schedule-doctor'}/>}
-            {value === 2 && userType() === "Doctor" && <Redirect to={'/home'}/>}
+            {value === 2 && userType() === "Doctor" && <Redirect to={'/profile'}/>}
             {value === 3 && logOut()}
       </div>
     </div>

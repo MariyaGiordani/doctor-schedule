@@ -12,6 +12,7 @@ import daysOfWeek from '../../utils/daysOfWeeek';
 import FormHelperText from "@material-ui/core/FormHelperText";
 import planilha from '../../assets/img/planilha.jpg';
 import Alert from '@material-ui/lab/Alert';
+import { getAddresses } from '../../utils/getAddresses';
 import axios from 'axios';
 
 import 'react-datepicker/dist/react-datepicker.css';
@@ -78,7 +79,8 @@ export default class Schedule extends Component {
            submitted: false,
            submitError: false,
            alert: false,
-           addressLength: null,
+           alertError: false,
+           addressLength: props.addresses.length,
            secondAddress: false
         };
     }
@@ -97,13 +99,6 @@ export default class Schedule extends Component {
         this.setState({ [name]: value, hasError: false});
         
         return true;
-    }
-
-    getAddresses = () => {
-        const URL = `https://agendamedicoapi.azurewebsites.net/api/Addresses/GetAddresses`;
-        axios.get(URL, { params: { cpf: sessionStorage.getItem('code')}}).then(response => {
-            this.setState({addressLength: response.data.length});
-        });
     }
 
     handleSubmit = (event) => {
@@ -159,11 +154,11 @@ export default class Schedule extends Component {
                     this.setState({ message: response.data.mensagem, submitted: true });
                 }).catch(error => {
                     console.log(error);
-                    this.setState({ message: error.response.data.mensagem, submitError: true });
+                    this.setState({ message: error.response.data.mensagem, submitError: true ,alert: true});
             });
         } else {
             let mensagem = "Não é possivel cadastrar outro endereço porque tem cadastrados dois!"
-            this.setState({ message: mensagem, alert: true });
+            this.setState({ message: mensagem, alertError: true });
         }
     }
 
@@ -171,11 +166,10 @@ export default class Schedule extends Component {
         const { hasError} = this.state;
         const consultationTime = ['15 min', '30 min', '1h'];
         const cancelMedicalConsultation = ['24h', '48h'];
-        this.getAddresses();
         return (
             <div className="schedule">
                 {
-                    this.state.submitted &&
+                    (this.state.submitted || this.state.alert) &&
                     <div className="schedule__form">
                         <Alert variant="filled" severity="success">
                            {this.state.message}
@@ -183,12 +177,12 @@ export default class Schedule extends Component {
                     </div>
                 }  
                 {
-                    (this.state.submitError || this.state.alert) &&
+                    (this.state.submitError || this.state.alertError) &&
                      <div className="schedule__form">
                         <Alert variant="filled" severity="error">
                             {this.state.message}
                         </Alert>
-                        { !this.state.alert &&
+                        { !this.state.alertError &&
                             <div> 
                                 <img className="signup-patient-img" alt="" src={planilha}/>
                                 <p className="forgot-password text-right">
@@ -352,8 +346,9 @@ export default class Schedule extends Component {
                             onChange={this.handleChange}
                         />
                         <div className="schedule--flex schedule--margin">
-                            {this.state.addressLength < 1 && <button type="submit" style={{marginRight: "10px"}} className="btn btn-primary" onSubmit={this.handleSubmit}>Criar Agenda</button>}
-                            {this.state.addressLength === 1 && <button type="submit" className="btn btn-primary">Adicionar novo endereço</button>}
+                            <button type="submit" style={{marginRight: "10px"}} className="btn btn-primary" onSubmit={this.handleSubmit}>Criar Agenda</button>
+                            {/* {this.state.addressLength < 1 && <button type="submit" style={{marginRight: "10px"}} className="btn btn-primary" onSubmit={this.handleSubmit}>Criar Agenda</button>}
+                            {this.state.addressLength === 1 && <button type="submit" className="btn btn-primary">Adicionar novo endereço</button>} */}
                         </div>
                     </form>
                 }

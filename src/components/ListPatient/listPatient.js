@@ -15,18 +15,19 @@ export default class ListPatient extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            appointments: []
+            appointments: [],
+            isReady: false
 
         };
     }
 
-    componentWillMount() {
+    async componentWillMount() {
         const URL = `https://agendamedicoapi.azurewebsites.net/api/Appointments/GetAppointments`;
-        axios.get(URL, { 
+        await axios.get(URL, { 
             params: { 
                 cpf: sessionStorage.getItem('code')
             }}).then(response => {
-                this.setState({appointments: response.data});
+                this.setState({appointments: response.data, isReady: true});
             });
     }
 
@@ -35,35 +36,37 @@ export default class ListPatient extends React.Component {
         console.log(this.state.appointments)
         return (
             <div className="list-patient">
-                <TableContainer  component={Paper}>
-                    <Table aria-label="customized table">
-                        <TableHead style={{backgroundColor: "#3f51b5"}}>
-                            <TableRow>
-                                <TableCell style={{color:"white"}}>Ação</TableCell>
-                                <TableCell style={{color:"white"}} align="left">Data</TableCell>
-                                <TableCell style={{color:"white"}} align="left">Horário</TableCell>
-                                <TableCell style={{color:"white"}} align="left">Nome do Médico</TableCell>
-                                <TableCell style={{color:"white"}} align="left">Endereço</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                        {this.state.appointments.map((item) =>  (
-                            <TableRow key={item.address.addressId}>
-                                {console.log(item.appointmentTime)}
-                                <TableCell component="th" scope="row">
-                                    <Avatar style={{backgroundColor:"#3f51b5"}}>
-                                        <AssignmentIndIcon />
-                                    </Avatar>
-                                </TableCell>
-                                <TableCell align="left">{new Date(item.appointmentTime).toLocaleDateString()}</TableCell>
-                                <TableCell align="left">{new Date(item.appointmentTime).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})}</TableCell>
-                                <TableCell align="left">{item.doctorFirstName + " " + item.doctorLastName}</TableCell>
-                                <TableCell align="left">{item.address.street}</TableCell>
-                            </TableRow>
-                        ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                {this.state.isReady &&
+                    <TableContainer  component={Paper}>
+                        <Table aria-label="customized table">
+                            <TableHead style={{backgroundColor: "#3f51b5"}}>
+                                <TableRow>
+                                    <TableCell style={{color:"white"}}>Ação</TableCell>
+                                    <TableCell style={{color:"white"}} align="left">Data</TableCell>
+                                    <TableCell style={{color:"white"}} align="left">Horário</TableCell>
+                                    <TableCell style={{color:"white"}} align="left">Nome do Médico</TableCell>
+                                    <TableCell style={{color:"white"}} align="left">Endereço</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                            {this.state.appointments.map((item) =>  (
+                                <TableRow key={item.address.addressId}>
+                                    {console.log(item.appointmentTime)}
+                                    <TableCell component="th" scope="row">
+                                        <Avatar style={{backgroundColor:"#3f51b5"}}>
+                                            <AssignmentIndIcon />
+                                        </Avatar>
+                                    </TableCell>
+                                    <TableCell align="left">{new Date(item.appointmentTime).toLocaleDateString()}</TableCell>
+                                    <TableCell align="left">{new Date(item.appointmentTime).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})}</TableCell>
+                                    <TableCell align="left">{item.doctorFirstName + " " + item.doctorLastName}</TableCell>
+                                    <TableCell align="left">{item.address.street}</TableCell>
+                                </TableRow>
+                            ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                }
             </div>
         )
     }

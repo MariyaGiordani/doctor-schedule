@@ -14,8 +14,9 @@ import SignupPatient from './components/SignupPatient/signupPatient';
 import DashboardPatient from '../src/views/DashboardPatient/DashboardPatient';
 import SchedulePageDoctor from '../src/views/SchedulePageDoctor/SchedulePageDoctor'
 import SearchPage from './views/SearchPage/SearchPage'
-import ResultPageDoctor from './views/ResultPageDoctor/ResultPageDoctor';
+import ResultPageDoctor from './views/ResultPageDoctor/ResultPageDoctor'
 import { isUserLogged } from './utils/isUserLogged';
+import Profile from './views/Profile/Profile'
 import { userType } from './utils/userType';
 
 const routes = () => (
@@ -34,6 +35,7 @@ const routes = () => (
             <Route path="/signup-patient" component={SignupPatient} />
             <Route path="/schedule-doctor" component={SchedulePageDoctor} />
             <Route path="/result-doctor" component={ResultPageDoctor} />
+            <Route path="/profile" component={Profile} />
         </Switch>
     </Fragment>
   );

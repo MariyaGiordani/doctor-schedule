@@ -1,18 +1,31 @@
 import React from 'react';
-import './SchedulePageDoctor.css'
+import './SchedulePageDoctor.css';
+import DoctorAddresses from '../../components/DoctorAddresses/doctorAddresses';
 import Schedule from '../../components/Schedule/schedule';
 import axios from 'axios';
 
 export default class SchedulePageDoctor extends React.Component {
-  getAddresses = () => {
-    const URL = `curl -X GET "https://agendamedicoapi.azurewebsites.net/api/Addresses/GetAddresses`;
-    axios.get(URL, { params: { cpf: sessionStorage.getItem('code')}}).then(response => {return response.data.length;});
+  constructor(props) {
+    super(props);
+    this.state = {
+        addresses: [],
+        isReady: false
+    };
+  }
+
+  async componentDidMount() {
+    const URL = `https://agendamedicoapi.azurewebsites.net/api/Addresses/GetAddresses`;
+    await axios.get(URL, { params: { cpf: sessionStorage.getItem('code')}})
+    .then(response => {
+      this.setState({addresses: response.data, isReady: true})
+    });
   }
 
    render(){
     return (
         <div className="schedule-doctor">
-          <Schedule></Schedule>
+          {/* {this.state.isReady && <DoctorAddresses addresses={this.state.addresses}/>} */}
+          {this.state.isReady && <Schedule addresses={this.state.addresses}/>}
         </div>
       )
     }

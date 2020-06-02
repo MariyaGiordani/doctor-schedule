@@ -20,7 +20,7 @@ export default class Calendar extends React.Component {
         };
     }
     
-    componentWillMount() {
+    componentDidMount() {
       const URL = `https://agendamedicoapi.azurewebsites.net/api/Appointments/GetAppointments`;
       axios.get(URL, { params: { cpf: sessionStorage.getItem('code')}}).then(response => {
           console.log(response.data);

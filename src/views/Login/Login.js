@@ -36,6 +36,11 @@ export default function Login(props) {
           sessionStorage.setItem("token", response.data.Objeto.Password);
           sessionStorage.setItem("user", response.data.Objeto.Patient === null ? "Doctor" : "Patient");
           response.data.Objeto.Patient === null ? sessionStorage.setItem("code", response.data.Objeto.Doctor.Cpf): sessionStorage.setItem("code", response.data.Objeto.Patient.Cpf);
+          if(response.data.Objeto.Patient !== null) {
+            sessionStorage.setItem("first", response.data.Objeto.Patient.FirstName);
+            sessionStorage.setItem("last", response.data.Objeto.Patient.LastName);
+            sessionStorage.setItem("username", response.data.Objeto.UserName);
+          }
           window.location.reload();
       }).catch(error => {
         setMessage(error.response.data.mensagem);
