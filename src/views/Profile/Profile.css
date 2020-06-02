@@ -1,6 +1,6 @@
 .profile {
     min-height: 100vh;
-    background-image: url("../../assets/img/profile.jpeg");
+    background-color: #999999;
     padding: 40px;
     font-weight: bolder;
     background-position: center;
