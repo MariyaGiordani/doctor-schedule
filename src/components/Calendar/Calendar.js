@@ -8,7 +8,7 @@ import '@fullcalendar/core/main.css';
 import '@fullcalendar/daygrid/main.css';
 import '@fullcalendar/list/main.css';
 import '@fullcalendar/timegrid/main.css';
-import './calendar.css'
+import './Calendar.css'
 import ptBrLocale from '@fullcalendar/core/locales/pt-br';
 import axios from 'axios';
 
