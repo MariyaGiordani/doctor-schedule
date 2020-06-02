@@ -72,7 +72,7 @@ export default function Login(props) {
           <div className="form-group">
               <div className="custom-control custom-checkbox">
                   <input type="checkbox" className="custom-control-input" id="customCheck1" />
-                  <label className="custom-control-label" htmlFor="customCheck1">Remember me</label>
+                  <label className="custom-control-label" htmlFor="customCheck1">Me lembra</label>
               </div>
           </div>
 

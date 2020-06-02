@@ -9,6 +9,7 @@ import Avatar from '@material-ui/core/Avatar';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import planilha from '../../assets/img/planilha.jpg'
 import axios from 'axios';
 
 export default class ListPatient extends React.Component {
@@ -36,7 +37,7 @@ export default class ListPatient extends React.Component {
         console.log(this.state.appointments)
         return (
             <div className="list-patient">
-                {this.state.isReady &&
+                {this.state.isReady && this.state.appointments.length !== 0 &&
                     <TableContainer  component={Paper}>
                         <Table aria-label="customized table">
                             <TableHead style={{backgroundColor: "#3f51b5"}}>
@@ -66,6 +67,14 @@ export default class ListPatient extends React.Component {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                }
+                {
+                    this.state.isReady && this.state.appointments.length === 0 &&
+                    <div>
+                        <p> Bem vindo na aplicativo de agendamento de Consultas Médicas!</p>
+                        <p> {sessionStorage.getItem('first')} {sessionStorage.getItem('last')}, você não tem nenhuma consulta no momento!</p>
+                        <img className="list-patient-img" alt="" src={planilha}/>
+                    </div>
                 }
             </div>
         )
