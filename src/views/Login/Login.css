@@ -1,32 +1,98 @@
-@media all and (min-width: 480px) {
-    .login {
-      padding: 60px 0;
-    }
-  
-    .login form {
-      margin: 0 auto;
-      max-width: 320px;
-    }
+@media all and (max-width: 600px) {
+  .login form {
+   margin: 0 auto;
+   max-width: 320px;
+ }
+
+ .login{
+   text-align: center;
+   display: flex;
+   margin: auto !important;
+   padding: 60px 0;
+   background-position: inherit !important;
+   background-position-y: 20% !important;
+ }
+
+ .login__form{
+   margin: auto !important;
+   margin-right: 0;
+   align-content: center;
+ }
+}
+
+@media all and (min-width: 601px) and (max-width: 1024px) {
+ .login {
+   background-image: url("../../assets/img/ImagemLogin.jpeg");
+   background-position-x: 60%;
+}
+
+ .login__form{
+   margin-right: 5%;
+   margin-top: 5%;
+ }
+}
+
+@media all and (min-width: 1025px) {
+ .login {
+   background-image: url("../../assets/img/ImagemLogin.jpeg");
+   background-position: inherit !important;
+   background-position-y: 20% !important;
+}
+
+ .login__form{
+   margin-right: 10%;
+   margin-top: 7%;
+ }
 }
 
 .login {
-  min-height: 100vh;
-  background-color: #999999;
-  font-weight: bolder;
-  height: 100%;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  position: relative;
+ min-height: 100vh;
+ height: 100%;
+ background-position: 60%;
+ background-repeat: no-repeat;
+ background-size: cover;
+ background-color: #a9a9a9;
+ padding: 60px 0;
+ width:100%;
+ line-height: 0.1;
+ color: white;
 }
 
 .login__form {
-  border: 1px solid #778899;
-  background-color: white;
-  border-radius: 10px;
-  padding: 10px 35px;
+ display: inline-block;
+ position: relative;
+ text-align: left;
+ float: right;
 }
 
-.login--margin {
-  margin: 15px 0;
+.login--margin{
+ margin-top: 10px;
 }
+
+.form-group{
+margin-top: 1rem;
+}
+
+.btn{
+max-width: 50%;
+background-color: #0097F6;
+border-color: #0097F6;
+}
+
+.form{
+position: relative;
+display: flex;
+flex-direction: column;
+min-width: 0;
+}
+
+.style{
+color: white;
+}
+
+.text_style{
+font-family: inherit;
+font-weight: 300;
+font-size: 3.5rem;
+}
+

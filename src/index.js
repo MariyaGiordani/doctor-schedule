@@ -14,7 +14,7 @@ import SignupPatient from './components/SignupPatient/signupPatient';
 import DashboardPatient from '../src/views/DashboardPatient/DashboardPatient';
 import SchedulePageDoctor from '../src/views/SchedulePageDoctor/SchedulePageDoctor'
 import SearchPage from './views/SearchPage/SearchPage'
-import ResultPageDoctor from './views/ResultPageDoctor/ResultPageDoctor'
+import ResultPageDoctor from './views/ResultPageDoctor/ResultpageDoctor'
 import { isUserLogged } from './utils/isUserLogged';
 import Profile from './views/Profile/Profile'
 import { userType } from './utils/userType';
