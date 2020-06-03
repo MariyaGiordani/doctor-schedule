@@ -40,6 +40,7 @@ export default function Login(props) {
             sessionStorage.setItem("first", response.data.Objeto.Patient.FirstName);
             sessionStorage.setItem("last", response.data.Objeto.Patient.LastName);
             sessionStorage.setItem("username", response.data.Objeto.UserName);
+            console.log("Novo")
           }
           window.location.reload();
       }).catch(error => {
