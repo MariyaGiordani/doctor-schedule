@@ -30,3 +30,12 @@
     padding: 1em;
     color: red;
 }
+
+.info {
+    position: fixed;
+    z-index: 3;
+    background-color: #041052;
+    color: white;
+    padding: 1em;
+    margin-top: -8em;
+}

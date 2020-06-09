@@ -124,6 +124,7 @@ export default class SignupDoctor extends Component {
                 data: data,
             })
                 .then(response => { 
+                    console.log(response)
                     if(response.data.sucesso) {
                         this.setState({ message: response.data.mensagem, submitted: true });
                     }else {
