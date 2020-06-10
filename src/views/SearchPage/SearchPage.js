@@ -148,7 +148,7 @@ export default class SearchPage extends Component {
                     }
                     {
                         !this.state.doctors &&
-                        <div>
+                        <div class="teste">
                             <h3 className="search-page--margin">Pesquisar Médico</h3>
                             <FormControl fullWidth variant="outlined">
                                 <div className="form-group">
