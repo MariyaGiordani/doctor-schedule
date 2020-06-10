@@ -54,8 +54,10 @@ export default class SearchDoctor extends Component {
             { this.state.scroll && this.state.length === 1 &&
                 <div className="info"> 
                     <h5 className="title">
-                        Médico: {this.state.doctors.doctor.FirstName} {this.state.doctors.doctor.LastName}, 
                         Endereço: {this.state.addressDoctor.Street + " , " + this.state.addressDoctor.Number},
+                        </h5>
+                    <br></br>
+                    <h5 className="title">
                         Horário de Atendimento:  {this.state.addressDoctor.TimeSheet.DaysOfTheWeeks.map((option) => (this.handleDays(option.Name))) + " " +
                                            new Date(this.state.addressDoctor.TimeSheet.StartDate).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})
                                             + " as " + 
