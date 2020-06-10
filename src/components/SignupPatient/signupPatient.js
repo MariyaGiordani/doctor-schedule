@@ -127,9 +127,9 @@ export default class SignupPatient extends Component {
                         <Alert variant="filled" severity="success">
                            {this.state.message}
                         </Alert>
-                        <img className="signup-patient-img" alt="" src={planilha}/>
+                        <img className="signup-patient-img" alt=""/>
                         <p className="forgot-password text-right">
-                           Gostaria de fazer <a href="/">sign in</a>
+                           Faça seu <a href="/">login</a>
                         </p>
                     </div>
                 }  
@@ -141,42 +141,42 @@ export default class SignupPatient extends Component {
                         </Alert>
                         <img className="signup-patient-img" alt="" src={planilha}/>
                         <p className="forgot-password text-right">
-                            Volta para <a href="/signup-patient">pagina de cadastro</a>
+                            Voltar para <a href="/signup-patient">página de cadastro</a>
                         </p>
                     </div>
                 } 
                 {!this.state.submitted && !this.state.submitError &&
                 <form className="signup-patient__form" onSubmit={this.handleSubmit}>
-                    <h3>Registro de Paciente</h3>
+                    <h3>Registro do Usuário</h3>
                     <FormControl fullWidth variant="outlined" error={hasError}>
-                        <div className="form-group">
-                            <TextField fullWidth name="firstName" error={this.state.firstName === "" && hasError ? true : false}  value={this.state.firstName} label="Primeiro nome*" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 20,}} />
-                            {this.state.firstName === "" && hasError && <FormHelperText>Digita seu Primeiro nome!</FormHelperText>}
+                        <div className="form-group form-size">
+                            <TextField fullWidth name="firstName" error={this.state.firstName === "" && hasError ? true : false}  value={this.state.firstName} label="Primeiro nome *" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 20,}} />
+                            {this.state.firstName === "" && hasError && <FormHelperText>Digite seu Primeiro nome!</FormHelperText>}
                         </div>
 
-                        <div className="form-group">
-                            <TextField fullWidth name="lastName" error={this.state.lastName === "" && hasError ? true : false}  value={this.state.lastName} label="Último nome*" variant="outlined" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
-                            {this.state.lastName === "" && hasError && <FormHelperText>Digita seu Último nome!</FormHelperText>}
+                        <div className="form-group form-size">
+                            <TextField fullWidth name="lastName" error={this.state.lastName === "" && hasError ? true : false}  value={this.state.lastName} label="Último nome *" variant="outlined" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
+                            {this.state.lastName === "" && hasError && <FormHelperText>Digite seu Último nome!</FormHelperText>}
                         </div>
 
-                        <div className="form-group">
-                            <TextField fullWidth name="cpf" error={this.state.cpf === "" && hasError ? true : false} label="CPF*" value={this.state.cpf} variant="outlined" onChange={this.handleChange}  InputProps={{ inputComponent: TextMaskCustom, value: this.state.cpf}}/>
-                            {this.state.cpf === "" && hasError && <FormHelperText>Digita seu CPF!</FormHelperText>}
+                        <div className="form-group form-size">
+                            <TextField fullWidth name="cpf" error={this.state.cpf === "" && hasError ? true : false} label="CPF *" value={this.state.cpf} variant="outlined" onChange={this.handleChange}  InputProps={{ inputComponent: TextMaskCustom, value: this.state.cpf}}/>
+                            {this.state.cpf === "" && hasError && <FormHelperText>Digite seu CPF!</FormHelperText>}
                         </div>
                       
-                        <div className="form-group">
-                            <TextField fullWidth name="email" error={this.state.email === "" && hasError ? true : false}  value={this.state.email} onChange={this.handleChange} label="Endereço de e-mail*" type="email" variant="outlined"/>
-                            {this.state.email === "" && hasError && <FormHelperText>Digita seu email!</FormHelperText>}
+                        <div className="form-group form-size">
+                            <TextField fullWidth name="email" error={this.state.email === "" && hasError ? true : false}  value={this.state.email} onChange={this.handleChange} label="Endereço de e-mail *" type="email" variant="outlined"/>
+                            {this.state.email === "" && hasError && <FormHelperText>Digite seu e-mail!</FormHelperText>}
                         </div>
 
-                        <div className="form-group">
-                            <TextField fullWidth name="password" error={this.state.password === "" && hasError ? true : false}  value={this.state.password} onChange={this.handleChange} id="filled-password-input" label="Senha*"  type="password" autoComplete="current-password" variant="outlined" inputProps={{ maxLength: 20,}} />
-                            {this.state.password === "" && hasError && <FormHelperText>Digita senha!</FormHelperText>}
+                        <div className="form-group form-size">
+                            <TextField fullWidth name="password" error={this.state.password === "" && hasError ? true : false}  value={this.state.password} onChange={this.handleChange} id="filled-password-input" label="Senha *"  type="password" autoComplete="current-password" variant="outlined" inputProps={{ maxLength: 20,}} />
+                            {this.state.password === "" && hasError && <FormHelperText>Digite uma senha!</FormHelperText>}
                         </div>
                     </FormControl>
-                    <button type="submit" className="btn btn-primary btn-block">Inscrever-se</button>
-                    <p className="forgot-password text-right">
-                        Já registrado <a href="/">sign in?</a>
+                    <button type="submit" className="btn btn-primary btn-block btn-margin">Inscrever-se</button>
+                    <p className="forgot-password text-right text_family">
+                        Já registrado? <a href="/">Entrar</a>
                     </p>
                 </form>}
             </div>

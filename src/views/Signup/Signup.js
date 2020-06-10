@@ -8,21 +8,20 @@ import './Signup.css'
 export default function Signup(props) {
   return (
     <div className="signup">
-        <h4>Para efetuar seu cadastro precisa escolher uma dos opições em baixo</h4>
         <div className="signup__body">
             <div className="signup__item"> 
                 <Link to="/signup-doctor">
                     <img className="signup__img-doctor" alt="" src={doctor}/>
                     <img className="signup__img-doctor" alt=""  src={Doctor}/>
                     <br/>
-                    Cadastro de Doutor
+                    Cadastro do Parceiro
                 </Link>
             </div>
             <div className="signup__item">
                 <Link to="/signup-patient">
                     <img className="signup__img-patient" alt="" src={team}/>
                     <br/>
-                    Cadastro de Paciente
+                    Cadastro do Usuário
                 </Link>
             </div>
         </div>

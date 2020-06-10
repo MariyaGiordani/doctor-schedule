@@ -73,7 +73,7 @@ export default class ListPatient extends React.Component {
                     <div>
                         <p> Bem vindo na aplicativo de agendamento de Consultas Médicas!</p>
                         <p> {sessionStorage.getItem('first')} {sessionStorage.getItem('last')}, você não tem nenhuma consulta no momento!</p>
-                        <img className="list-patient-img" alt="" src={planilha}/>
+                        
                     </div>
                 }
             </div>

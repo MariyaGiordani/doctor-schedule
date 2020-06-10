@@ -147,7 +147,7 @@ export default class SignupDoctor extends Component {
                         </Alert>
                         <img className="signup-doctor-img" alt="" src={planilha}/>
                         <p className="forgot-password text-right">
-                           Gostaria de fazer <a href="/">sign in?</a>
+                           Faça seu <a href="/">login</a>
                         </p>
                     </div>
                 }  
@@ -157,67 +157,67 @@ export default class SignupDoctor extends Component {
                         <Alert variant="filled" severity="error">
                            {this.state.message}
                         </Alert>
-                        <img className="signup-doctor-img" alt="" src={planilha}/>
+                        <img className="signup-doctor-img" alt=""/>
                         <p className="forgot-password text-right">
-                           Volta para <a href="/signup-doctor">pagina de cadastro</a>
+                           Voltar para <a href="/signup-doctor">página de cadastro</a>
                         </p>
                     </div>
                 } 
                 {!this.state.submitted && !this.state.submitError &&
                 <form className="signup-doctor__form" onSubmit={this.handleSubmit}>
-                    <h3>Registro de Médico</h3>
+                    <h3>Registro do Parceiro</h3>
                     <FormControl fullWidth variant="outlined" error={hasError}>
-                        <div className="form-group">
-                            <TextField fullWidth name="firstName" error={this.state.firstName === "" && hasError ? true : false}  value={this.state.firstName} label="Primeiro nome*" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 20,}} />
-                            {this.state.firstName === "" && hasError && <FormHelperText>Digita seu Primeiro nome!</FormHelperText>}
+                        <div className="form-group form-size">
+                            <TextField fullWidth name="firstName" error={this.state.firstName === "" && hasError ? true : false}  value={this.state.firstName} label="Primeiro nome *" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 20,}} />
+                            {this.state.firstName === "" && hasError && <FormHelperText>Digite seu Primeiro nome!</FormHelperText>}
                         </div>
 
-                        <div className="form-group">
-                            <TextField fullWidth name="lastName" error={this.state.lastName === "" && hasError ? true : false}  value={this.state.lastName} label="Último nome*" variant="outlined" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
-                            {this.state.lastName === "" && hasError && <FormHelperText>Digita seu Último nome!</FormHelperText>}
+                        <div className="form-group form-size">
+                            <TextField fullWidth name="lastName" error={this.state.lastName === "" && hasError ? true : false}  value={this.state.lastName} label="Último nome *" variant="outlined" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
+                            {this.state.lastName === "" && hasError && <FormHelperText>Digite seu Último nome!</FormHelperText>}
                         </div>
 
-                        <div className="form-group">
-                            <TextField fullWidth name="crm" label="CRM*" error={this.state.crm === null && hasError ? true : false} value={this.state.crm} type="number" variant="outlined"  onChange={this.handleChange} onInput={(e)=>{ e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10) }} min={0}/>
-                            {this.state.crm === null && hasError && <FormHelperText>Digita seu CRM!</FormHelperText>}
+                        <div className="form-group form-size">
+                            <TextField fullWidth name="crm" label="CRM *" error={this.state.crm === null && hasError ? true : false} value={this.state.crm} type="number" variant="outlined" onChange={this.handleChange} onInput={(e)=>{ e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,10) }} min={0}/>
+                            {this.state.crm === null && hasError && <FormHelperText>Digite seu CRM!</FormHelperText>}
                         </div>
 
-                        <div className="form-group">
-                            <TextField fullWidth name="cpf" error={this.state.cpf === "" && hasError ? true : false} label="CPF*" value={this.state.cpf} variant="outlined" onChange={this.handleChange}  InputProps={{ inputComponent: TextMaskCustom, value: this.state.cpf}}/>
-                            {this.state.cpf === "" && hasError && <FormHelperText>Digita seu CPF!</FormHelperText>}
+                        <div className="form-group form-size">
+                            <TextField fullWidth name="cpf" error={this.state.cpf === "" && hasError ? true : false} label="CPF *" value={this.state.cpf} variant="outlined"  onChange={this.handleChange}  InputProps={{ inputComponent: TextMaskCustom, value: this.state.cpf}}/>
+                            {this.state.cpf === "" && hasError && <FormHelperText>Digite seu CPF!</FormHelperText>}
                         </div>
 
-                        <div className="form-group">
-                            <InputLabel className="signup-doctor--position" error={this.state.errorSpecialty}>Especialidade*</InputLabel>
+                        <div className="form-group form-size">
+                            <InputLabel className="signup-doctor--position" error={this.state.errorSpecialty}>Especialidade *</InputLabel>
                             <Select
                                 fullWidth
                                 error={this.state.errorSpecialty}
                                 name="specialty"
                                 onChange={this.handleChange}
-                                label="Especialidade*"
+                                label="Especialidade *"
                             >
                                 {options.specialtyDoctor.map((option) => (
-                                    <MenuItem key={option.value} value={option.label}>
+                                    <MenuItem key={option.value} value={option.label} >
                                     {option.label}
                                     </MenuItem>
                                 ))}
                             </Select>
-                            {this.state.specialty === null && hasError && <FormHelperText>Escolhe um dos Especialidade!</FormHelperText>}
+                            {this.state.specialty === null && hasError && <FormHelperText>Escolha uma das Especialidades!</FormHelperText>}
                         </div>
 
-                        <div className="form-group">
-                            <TextField fullWidth name="email" error={this.state.email === "" && hasError ? true : false}  value={this.state.email} onChange={this.handleChange} label="Endereço de e-mail*" type="email" variant="outlined"/>
-                            {this.state.email === "" && hasError && <FormHelperText>Digita seu email!</FormHelperText>}
+                        <div className="form-group form-size">
+                            <TextField fullWidth name="email" error={this.state.email === "" && hasError ? true : false}  value={this.state.email} onChange={this.handleChange} label="Endereço de e-mail *" type="email" variant="outlined" />
+                            {this.state.email === "" && hasError && <FormHelperText>Digite seu e-mail!</FormHelperText>}
                         </div>
 
-                        <div className="form-group">
-                            <TextField fullWidth name="password" error={this.state.password === "" && hasError ? true : false}  value={this.state.password} onChange={this.handleChange} id="filled-password-input" label="Senha*"  type="password" autoComplete="current-password" variant="outlined" inputProps={{ maxLength: 20,}} />
-                            {this.state.password === "" && hasError && <FormHelperText>Digita senha!</FormHelperText>}
+                        <div className="form-group form-size">
+                            <TextField fullWidth name="password" error={this.state.password === "" && hasError ? true : false}  value={this.state.password} onChange={this.handleChange} id="filled-password-input" label="Senha *"  type="password" autoComplete="current-password" variant="outlined" inputProps={{ maxLength: 20,}} />
+                            {this.state.password === "" && hasError && <FormHelperText>Digite uma senha!</FormHelperText>}
                         </div>
                     </FormControl>
-                    <button type="submit" className="btn btn-primary btn-block">Inscrever-se</button>
-                    <p className="forgot-password text-right">
-                        Já registrado <a href="/">sign in?</a>
+                    <button type="submit" className="btn btn-primary btn-block btn-margin">Inscrever-se</button>
+                    <p className="forgot-password text-right text_family">
+                        Já registrado? <a href="/">Entrar</a>
                     </p>
                 </form>}
             </div>
