@@ -1,6 +1,21 @@
+@media all and (max-width: 600px) {
+    .signup-doctor {
+        padding: 0px !important;
+    }
+    .signup-doctor__form {
+        width: 100% !important;
+    }
+}
+
+@media all and (min-width: 601px) and (max-width: 1024px) {
+    .signup-doctor__form {
+        width: 70% !important;
+    }
+}
+
 .signup-doctor {
     min-height: 100vh;
-    background-color: #999999;
+    background-color: #f5f5f5;
     padding: 40px;
     font-weight: bolder;
     height: 100%;
@@ -12,7 +27,7 @@
 }
 
 .signup-doctor__form {
-    background-color: #F0F8FF;
+    background-color:white;
     font-weight: bolder;
     background-position: center;
     background-repeat: no-repeat;
@@ -23,7 +38,7 @@
     border-radius: 10px;
     padding: 30px 45px;
     position: relative;
-    width: 50%;
+    width: 40%;
     margin: auto;
 }
 
@@ -42,4 +57,22 @@
     margin: 20px auto;
     border: 2px solid #778899;
     border-radius: 5px;
+}
+
+.form-size{
+    margin-top: 7px !important;
+    margin-bottom: 7px !important;
+}
+
+.forgot-password{
+    padding: 0 !important;
+}
+
+.btn-margin{
+    margin-top: 10px !important;
+}
+
+p.text_family{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
 }
