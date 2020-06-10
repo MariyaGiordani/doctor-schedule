@@ -24,7 +24,7 @@ export default class SearchDoctor extends Component {
 
     componentWillMount() {
        this.state.doctors.doctor.Addresses.length > 1 ? this.setState({avatar: true}) : this.setState({avatar: false, addressDoctor: this.state.doctors.doctor.Addresses[0]});
-       this.setState({message: "Atenção este médico atende em duas localidades. Escolha endereço clicando no check."})
+       this.setState({message: "Atenção este médico atende em duas localidades. Escolha o endereço clicando no check."})
     }
 
     componentDidMount() {
@@ -69,7 +69,7 @@ export default class SearchDoctor extends Component {
             {doctors.doctor.Addresses.map((option) => (
                 <div>
                     {(option.$id === id || id === null) &&
-                        <div className="search-doctor">
+                        <div className="search-doctor search-margin">
                             {console.log("Option",option)}
                             { avatar &&
                                 <Avatar onClick={event => {window.scrollTo(0, 0); this.setState({length: 1, calendar: true, addressDoctor: option, id: option.$id, avatar: false, message: newMessage})}} style={{backgroundColor:"#3f51b5"}}>
@@ -77,16 +77,16 @@ export default class SearchDoctor extends Component {
                                 </Avatar>
                             }
                             <List key={option.$id}> 
-                                <ListItem>
+                                <ListItem className="text_family">
                                     Endereço: &nbsp;
                                     <ListItemText className="title" primary={option.Street + " , " + option.Number} />
                                 </ListItem>
-                                <ListItem>
+                                <ListItem className="text_family">
                                     Telefone: &nbsp;
                                     <ListItemText primary={option.Telephone} />
                                 </ListItem>
-                                <ListItem>
-                                    Horário de Atendimento: &nbsp;
+                                <ListItem className="text_family">
+                                    Horário de Atendimento:  &nbsp;
                                     <ListItemText className="title" 
                                        primary={
                                            option.TimeSheet.DaysOfTheWeeks.map((option) => (this.handleDays(option.Name))) + " " +
@@ -95,18 +95,18 @@ export default class SearchDoctor extends Component {
                                            new Date(option.TimeSheet.EndDate).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})}
                                     />
                                 </ListItem>
-                                <ListItem>
-                                    Planos de Saúde: &nbsp;
-                                    <ListItemText className="title" primary={option.HealthCare} />
-                                </ListItem>
                             </List>
                             <div className="search-doctor__information">
                                 <ListItem style={{display: "block"}}>
                                     Informações Extras: &nbsp;
                                     {option.Information === "" ?
-                                        <ListItemText primary="Não tem informação adicional!" /> :
+                                        <ListItemText primary="Não há informações extras." /> :
                                         <ListItemText className="title" primary={option.Information} />
                                     }
+                                </ListItem>
+                                <ListItem>
+                                    Planos de Saúde: &nbsp;
+                                    <ListItemText className="title" primary={option.HealthCare} />
                                 </ListItem>
                             </div>
                         </div>

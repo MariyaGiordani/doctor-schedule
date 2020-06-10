@@ -49,21 +49,24 @@ export default class ListPatient extends React.Component {
     handleSchedule = async(e, item) => {
         console.log(item)
         this.setState({doctor: item});
+        sessionStorage.setItem("appoitmentStatus", "2");
+        sessionStorage.setItem("rescheduleAppoitmentId", this.state.doctor.appointmentId);
+
         const URL = `https://agendamedicoapi.azurewebsites.net/api/Doctors/search`;
         await axios.get(URL, {
             params: {
                 firstName: this.state.doctor.doctorFirstName,
                 lastname: this.state.doctor.doctorLastName
             }
-          })
-          .then(response => {
-                console.log(response);
-                if(response.data.length > 1){
-                    this.setState({ listDoctors: response.data, doctors: true });
-                }else {
-                    this.setState({ doctor: response.data[0], rescheduleDoctor: true});
-                }
-            }).catch(error => {
+        })
+        .then(response => {
+            console.log(response);
+            if(response.data.length > 1){
+                this.setState({ listDoctors: response.data, doctors: true });
+            }else {
+                this.setState({ doctor: response.data[0], rescheduleDoctor: true});
+            }
+        }).catch(error => {
                 console.log(error);
         });
     }
@@ -92,10 +95,10 @@ export default class ListPatient extends React.Component {
             },
             data: data,
         })
-            .then(response => { 
-                console.log(response);
-                this.setState({cancel: false, message: response.data.mensagem})
-            }).catch(error => {
+        .then(response => { 
+            console.log(response);
+            this.setState({cancel: false, message: response.data.mensagem})
+        }).catch(error => {
                 console.log(error);
         });
     };
@@ -152,8 +155,8 @@ export default class ListPatient extends React.Component {
                                 {console.log("Event", this.state.doctor)}
                             </ModalHeader>
                             <ModalBody>
-                                { this.state.reschedule && <div>Confirma clicando no botão que você realmente gostaria de remarcar essa consulta!</div> }
-                                { this.state.cancel && <div>Confirma clicando no botão que você realmente gostaria de cancelar essa consulta!</div> }
+                                { this.state.reschedule && <div>Você realmente gostaria de remarcar esta consulta?</div> }
+                                { this.state.cancel && <div>Você realmente gostaria de cancelar esta consulta?</div> }
                             { !this.state.cancel && !this.state.reschedule  && <div>{this.state.message}</div> }
                             </ModalBody>
                             <ModalFooter>
@@ -166,8 +169,8 @@ export default class ListPatient extends React.Component {
                 {
                     this.state.isReady && this.state.appointments.length === 0 &&
                     <div>
-                        <p> Bem vindo na aplicativo de agendamento de Consultas Médicas!</p>
-                        <p> {sessionStorage.getItem('first')} {sessionStorage.getItem('last')}, você não tem nenhuma consulta no momento!</p>
+                        <p> Bem vindo ao Agenda Fácil!</p>
+                        <p> {sessionStorage.getItem('first')} {sessionStorage.getItem('last')}, você não tem nenhuma consulta no momento.</p>
                         
                     </div>
                 }
