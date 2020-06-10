@@ -1,3 +1,13 @@
+@media all and (max-width: 600px) {
+    .search-page {
+        padding: 8% 0% !important;
+    }
+
+    .search-page__form {
+        width: 100% !important;
+    }
+}
+
 .search-page {
     min-height: 100vh;
     background-color: #f5f5f5;
@@ -27,10 +37,6 @@
     margin-top: 4em;
 }
 
-.search-page--margin {
-    margin-bottom: 1em;
-}
-
-.teste{
-    padding: 3em;
+.search-padding{
+    padding: 40px;
 }

@@ -61,7 +61,7 @@ export default class CalendarAppointment extends React.Component {
     handleSave = () => {
         if(this.state.time === null) {
            this.setState({error: true})
-        }else {
+        }else if (sessionStorage.getItem("appoitmentStatus") != "2"){
             let hour = new Date(this.state.time).toLocaleTimeString()
             let date = new Date(this.state.date).toISOString().slice(0, 10)
             let newData = date + "T" + hour;
@@ -91,6 +91,42 @@ export default class CalendarAppointment extends React.Component {
                 }).catch(error => {
                    console.log(error)
             });
+        }else{
+            let hour = new Date(this.state.time).toLocaleTimeString()
+            let date = new Date(this.state.date).toISOString().slice(0, 10)
+            let newData = date + "T" + hour;
+            let data = {
+                AppointmentId: sessionStorage.getItem("rescheduleAppoitmentId"),
+                AppointmentTime: newData,
+                Status: 2,
+                DoctorCpf: this.state.address.Cpf,
+                PatientCpf: sessionStorage.getItem('code'),
+                AddressId: this.state.address.AddressId
+            }
+    
+            const URL = `https://agendamedicoapi.azurewebsites.net/api/Appointments/`;
+    
+            axios(URL + sessionStorage.getItem("rescheduleAppoitmentId"), {
+                method: 'PUT',
+                headers: {
+                    'Access-Control-Allow-Origin': 'http://localhost:3000',
+                    'content-type': 'application/json;',
+                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                    'Access-Control-Allow-Headers': '*',
+                    'Accept': '/'
+                },
+                data: data,
+            })
+            .then(response => { 
+                console.log(response);
+                this.setState({response: true, message: response.data.mensagem})
+                window.location.reload();
+            }).catch(error => {
+                    console.log(error);
+            });
+
+            sessionStorage.setItem("appoitmentStatus", "");
+            sessionStorage.setItem("rescheduleAppoitmentId", "");
         }
     }
 
@@ -148,7 +184,7 @@ export default class CalendarAppointment extends React.Component {
                                 </MenuItem>
                             ))}
                             </Select>
-                            {this.state.time === null && this.state.error && <FormHelperText style={{color:"red"}}>Escolha horario para consulta!</FormHelperText>}
+                            {this.state.time === null && this.state.error && <FormHelperText style={{color:"red"}}>Escolha um horário para a consulta!</FormHelperText>}
                         </FormControl>
                         </div>
                     }
@@ -156,9 +192,7 @@ export default class CalendarAppointment extends React.Component {
                 </ModalBody>
                 <ModalFooter>
                     { !this.state.response && <Button color="primary" onClick={this.handleSave}>Confirmar Consulta</Button> }{" "}
-                    <Button color="outline-dark" onClick={this.toggle}>
-                    Cancelar
-                    </Button>
+                    { !this.state.response && <Button color="outline-dark" onClick={this.toggle}>Cancelar</Button> }{" "}
                 </ModalFooter>
             </Modal>
           </div>
