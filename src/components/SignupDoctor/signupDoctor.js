@@ -41,7 +41,7 @@ export default class SignupDoctor extends Component {
             firstName: '',
             lastName:'',
             email:'',
-            crm: null,
+            crm: '',
             cpf:'',
             message:'',
             specialty: null,

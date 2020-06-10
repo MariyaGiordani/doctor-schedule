@@ -19,22 +19,52 @@ export default class DoctorAddresses extends Component {
         super(props);
         this.state = {
             addresses: props.addresses,
-            edit: false
+            edit: false,
+            editAddress: []
         };
     }
 
-    handleDelete = () => {
-        const URL = `https://agendamedicoapi.azurewebsites.net/api/Addresses`;
-        axios.delete(URL, this.state.addressId)
-        .then(response => {
-            console.log(response.data)
-        }).catch((error) => {
-          throw error.response.data
+    handleDelete = (e, item) => {
+        console.log(item);
+        let data = {
+            AddressId: item.addressId,
+            RoadType: item.roadType,
+            Street: item.street,
+            Number: item.number,
+            Neighborhood: item.neighborhood,
+            Complement: item.complement,
+            PostalCode: item.postalCode,
+            City: item.city,
+            UF: item.uf,
+            Information: item.information,
+            Cpf: item.cpf,
+            TimeSheet: item.timeSheet,
+            Telephone: item.telephone,
+            HealthCare: item.healthCare,
+            DaysOfTheWeeks: null,
+            Status: 2
+          }
+        const URL = `https://agendamedicoapi.azurewebsites.net/api/Addresses/`;
+        axios(URL + sessionStorage.getItem('code'), {
+            method: 'PUT',
+            headers: {
+                'Access-Control-Allow-Origin': 'http://localhost:3000',
+                'content-type': 'application/json;',
+                'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                'Access-Control-Allow-Headers': '*',
+                'Accept': '/'
+            },
+            data: data,
         })
+            .then(response => { 
+                console.log(response);
+            }).catch(error => {
+                console.log(error);
+        });
     }
 
-    handleEdit = () => {
-        this.setState({edit: true});
+    handleEdit = (e, item) => {
+        this.setState({edit: true, editAddress: item});
     }
 
     render() {
@@ -58,10 +88,10 @@ export default class DoctorAddresses extends Component {
                             {this.state.addresses.map((item) =>  (
                                 <TableRow key={item.$id}>
                                     <TableCell component="th" scope="row" style={{ display: "flex", justifyContent: "space-evenly"}}>
-                                        <Avatar onClick={this.handleEdit} style={{backgroundColor:"#3f51b5"}}>
+                                        <Avatar onClick={e => this.handleEdit(e, item)} style={{backgroundColor:"#3f51b5"}}>
                                             <EditIcon />
                                         </Avatar>
-                                        <Avatar onClick={this.handleDelete} style={{backgroundColor:"red"}}>
+                                        <Avatar onClick={e => this.handleDelete(e, item)} style={{backgroundColor:"red"}}>
                                             <DeleteForeverIcon />
                                         </Avatar>
                                     </TableCell>
@@ -76,7 +106,7 @@ export default class DoctorAddresses extends Component {
                     </TableContainer>
                 </div>
             }
-            { (this.state.edit || this.state.addresses.length < 2) && <Schedule addresses={this.state.addresses}/>}
+            { (this.state.edit || this.state.addresses.length < 2) && <Schedule editAddress={this.state.editAddress} addresses={this.state.addresses} />}
             </div>
         );
     }

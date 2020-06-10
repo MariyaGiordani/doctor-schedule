@@ -46,9 +46,7 @@ export default class ListPatient extends React.Component {
         window.location.reload();
     };
 
-    handleSchedule = async(e, item) => {
-        console.log(item)
-        this.setState({doctor: item});
+    handleSchedule = async() => {
         const URL = `https://agendamedicoapi.azurewebsites.net/api/Doctors/search`;
         await axios.get(URL, {
             params: {

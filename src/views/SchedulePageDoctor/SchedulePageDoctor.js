@@ -24,8 +24,8 @@ export default class SchedulePageDoctor extends React.Component {
    render(){
     return (
         <div className="schedule-doctor">
-          {/* {this.state.isReady && <DoctorAddresses addresses={this.state.addresses}/>} */}
-          {this.state.isReady && <Schedule addresses={this.state.addresses}/>}
+          {this.state.isReady && this.state.addresses.length === 2 && <DoctorAddresses addresses={this.state.addresses}/>}
+          {this.state.isReady && this.state.addresses.length < 2 && <Schedule addresses={this.state.addresses}/>}
         </div>
       )
     }
