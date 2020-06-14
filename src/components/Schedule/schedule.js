@@ -58,6 +58,7 @@ export default class Schedule extends Component {
     constructor(props) {
         super(props);
         this.state = {
+           editAddress: props.editAddress,
            cep: null,
            healthCare:'',
            information: '',
@@ -174,6 +175,12 @@ export default class Schedule extends Component {
                         <Alert variant="filled" severity="success">
                            {this.state.message}
                         </Alert>
+                        <div> 
+                            <img className="signup-patient-img" alt="" src={planilha}/>
+                            <p className="forgot-password text-right">
+                                Volta para <a href="/schedule-doctor">pagina do endereços</a>
+                            </p>
+                        </div>
                     </div>
                 }  
                 {

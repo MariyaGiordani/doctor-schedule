@@ -9,23 +9,34 @@ export default class SchedulePageDoctor extends React.Component {
     super(props);
     this.state = {
         addresses: [],
-        isReady: false
+        isReady: false,
     };
   }
 
   async componentDidMount() {
     const URL = `https://agendamedicoapi.azurewebsites.net/api/Addresses/GetAddresses`;
-    await axios.get(URL, { params: { cpf: sessionStorage.getItem('code')}})
+    let response = await axios.get(URL, { params: { cpf: sessionStorage.getItem('code')}})
     .then(response => {
-      this.setState({addresses: response.data, isReady: true})
+      return response.data;
+      // this.setState({ addresses: response.data, isReady: true});
     });
+    response.map(item => {
+      if(item.status !== 2) {
+        return  this.setState(prevState => ({
+          addresses: [...prevState.addresses, item]
+        }));
+      }
+      return null;
+    });
+    this.setState({isReady: true});
+    console.log(this.state.addresses)
   }
 
    render(){
+    console.log(this.state.addresses.length)
     return (
         <div className="schedule-doctor">
-          {/* {this.state.isReady && <DoctorAddresses addresses={this.state.addresses}/>} */}
-          {this.state.isReady && <Schedule addresses={this.state.addresses}/>}
+          {this.state.isReady && <DoctorAddresses addresses={this.state.addresses}/>}
         </div>
       )
     }
