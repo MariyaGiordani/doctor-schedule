@@ -9,7 +9,6 @@ import Avatar from '@material-ui/core/Avatar';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import planilha from '../../assets/img/planilha.jpg';
 import { Redirect } from 'react-router';
 import CancelIcon from '@material-ui/icons/Cancel';
 import ScheduleIcon from '@material-ui/icons/Schedule';
@@ -152,7 +151,7 @@ export default class ListPatient extends React.Component {
                             <ModalBody>
                                 { this.state.reschedule && <div>Confirma clicando no botão que você realmente gostaria de remarcar essa consulta!</div> }
                                 { this.state.cancel && <div>Confirma clicando no botão que você realmente gostaria de cancelar essa consulta!</div> }
-                            { !this.state.cancel && !this.state.reschedule  && <div>{this.state.message}</div> }
+                                { !this.state.cancel && !this.state.reschedule  && <div>{this.state.message}</div> }
                             </ModalBody>
                             <ModalFooter>
                                 { this.state.reschedule && <Button color="primary" onClick={this.handleSchedule}>Remarcar</Button> }{" "}

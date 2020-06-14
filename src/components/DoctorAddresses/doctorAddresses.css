@@ -14,3 +14,27 @@
     margin: auto;
     margin-top: 4em;
 }
+
+.doctor-addresses-title {
+    color: black;
+    font-size: 1em;
+    padding-top: 10px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    line-height: 1.43;
+    letter-spacing: 0.01071em;
+    margin-left: 1em;
+}
+
+.doctor-addresses-new {
+    display: flex;
+    padding-bottom: 1em;
+    margin-left: 1em;
+}
+
+.doctor-addresses-message {
+    text-align: center;
+    color: black;
+    margin-top: 4em;
+    font-size: 1.3em;
+}
