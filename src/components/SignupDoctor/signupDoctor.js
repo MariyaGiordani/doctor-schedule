@@ -146,7 +146,7 @@ export default class SignupDoctor extends Component {
                         <Alert variant="filled" severity="success">
                             {this.state.message}
                         </Alert>
-                        <img className="signup-doctor-img" alt="" src={planilha}/>
+                        <img className="signup-doctor-img" alt=""/>
                         <p className="forgot-password text-right">
                            Faça seu <a href="/">login</a>
                         </p>

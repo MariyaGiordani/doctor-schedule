@@ -1,4 +1,5 @@
 const specialtyDoctor = [
+    { value: 0 , label: 'NENHUMA' },
     { value: 1 , label: 'ACUPUNTURA' },
     { value: 2 , label: 'ADMINISTRAÇÃO EM SAÚDE' },
     { value: 3 , label: 'ADMINISTRAÇÃO HOSPITALAR' },

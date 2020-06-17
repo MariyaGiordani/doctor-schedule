@@ -86,11 +86,11 @@ export default class SearchPage extends Component {
           })
           .then(response => {
                 console.log(response);
-                if(response.data.length > 1){
+                if(response.data.length > 0){
                     this.setState({ listDoctors: response.data, doctors: true });
-                }else {
-                    this.setState({ resultDoctor: true, doctor: response.data[0]});
-                }
+                }//else {
+                    //this.setState({ resultDoctor: true, doctor: response.data[0]});
+                //}
             }).catch(error => {
                 console.log(error);
                 this.setState({ message: error.response.data.mensagem, submitError: true });
@@ -116,9 +116,9 @@ export default class SearchPage extends Component {
                                     <TableHead style={{backgroundColor: "#3f51b5"}}>
                                         <TableRow>
                                             <TableCell style={{color:"white"}}>Ação</TableCell>
-                                            <TableCell style={{color:"white"}} align="left">Name</TableCell>
+                                            <TableCell style={{color:"white"}} align="left">Nome</TableCell>
                                             <TableCell style={{color:"white"}} align="left">Especialidade</TableCell>
-                                            <TableCell style={{color:"white"}} align="left">Endereço</TableCell>
+                                            <TableCell style={{color:"white"}} align="left">Endereço 1</TableCell>
                                             <TableCell style={{color:"white"}} align="left">Endereço 2</TableCell>
                                         </TableRow>
                                     </TableHead>
@@ -149,18 +149,18 @@ export default class SearchPage extends Component {
                     {
                         !this.state.doctors &&
                         <div class="search-padding">
-                            <h3 className="search-page--margin">Pesquisar Médico</h3>
+                            <h3>Pesquisar Médico</h3>
                             <FormControl fullWidth variant="outlined">
-                                <div className="form-group">
+                                <div className="form-group form-size">
                                     <TextField fullWidth name="firstName"  value={this.state.firstName} label="Primeiro nome do Médico" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
                                 </div>
-                                <div className="form-group">
+                                <div className="form-group form-size">
                                     <TextField fullWidth name="lastName" value={this.state.lastName} label="Sobrenome do Médico" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
                                 </div>
-                                <div className="form-group">
+                                <div className="form-group form-size">
                                     <TextField fullWidth name="neighborhood"  value={this.state.neighborhood} label="Procurar por Bairro" variant="outlined" type="text" onChange={this.handleChange} inputProps={{ maxLength: 40,}} />
                                 </div>
-                                <div className="form-group">
+                                <div className="form-group form-size">
                                     <InputLabel className="signup-doctor--position">Especialidade</InputLabel>
                                     <Select
                                         fullWidth
@@ -176,7 +176,7 @@ export default class SearchPage extends Component {
                                     </Select>
                                 </div>
                             </FormControl>
-                            <button type="submit" className="btn btn-primary" onClick={() => this.handleClick()}>Pesquisar</button>
+                            <button type="submit" className="btn btn-primary btn-margin" onClick={() => this.handleClick()}>Pesquisar</button>
                         </div>
                     }
                 </form>
