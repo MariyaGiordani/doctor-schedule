@@ -152,7 +152,7 @@ export default class DoctorAddresses extends Component {
                         </TableContainer>
                     </div>
                 }
-            { this.state.edit && <Schedule editAddress={this.state.editAddress} addresses={this.state.addresses} />}
+            { this.state.edit && <Schedule editAddress={this.state.editAddress}/>}
             </div>
         );
     }

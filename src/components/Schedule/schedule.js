@@ -79,11 +79,46 @@ export default class Schedule extends Component {
            message: '',
            submitted: false,
            submitError: false,
-           alert: false,
-           alertError: false,
-           addressLength: props.addresses.length,
-           secondAddress: false
+           secondAddress: false,
+           edit: false,
+           editDaysOfWeek: [],
+           checked: false
         };
+    }
+
+    async componentDidMount() {
+        if(this.state.editAddress.length === undefined) {
+            let array = [];
+            this.state.editAddress.timeSheet.daysOfTheWeeks.map((option) => (array.push(option.name)));
+            this.setState({cancelMedicalConsultation: this.state.editAddress.timeSheet.appointmentCancelTime, 
+                            cep: this.state.editAddress.postalCode,
+                            consultationTime: this.state.editAddress.timeSheet.appointmentDuration, 
+                            telephone: this.state.editAddress.telephone,
+                            city: this.state.editAddress.city,
+                            neighborhood: this.state.editAddress.neighborhood,
+                            address: this.state.editAddress.street,
+                            number: this.state.editAddress.number,
+                            healthCare: this.state.editAddress.healthCare,
+                            aditionalInf: this.state.editAddress.complement,
+                            information: this.state.editAddress.information,
+                            startLunchHour: new Date(this.state.editAddress.timeSheet.lunchStartDate),
+                            endLunchHour: new Date(this.state.editAddress.timeSheet.lunchEndDate),
+                            startWorkHour: new Date(this.state.editAddress.timeSheet.startDate),
+                            endWorkHour: new Date(this.state.editAddress.timeSheet.endDate),
+                            editDaysOfWeek: array,
+                            edit: true});
+            if(this.state.editAddress.postalCode !== null) {
+                this.searchCEP(this.state.cep);
+            }
+        }
+    }
+
+    searchCEP = async(value) => {
+        let results = await axios.get(`http://viacep.com.br/ws/` + value + `/json/`).then((response) => {return response.data});
+        console.log(results)
+        if(results) {
+            this.setState({city: results.localidade, address: results.logradouro, neighborhood: results.bairro, aditionalInf: results.complemento})
+        }
     }
 
     handleChange = async(event) => {
@@ -91,11 +126,7 @@ export default class Schedule extends Component {
         const value = target.value;
         const name = target.name;
         if(value.length > 7 && name === "cep") {
-            let results = await axios.get(`http://viacep.com.br/ws/` + value + `/json/`).then((response) => {return response.data});
-            console.log(results)
-            if(results) {
-               this.setState({city: results.localidade, address: results.logradouro, neighborhood: results.bairro, aditionalInf: results.complemento})
-            }
+            await this.searchCEP(value);
         }
         this.setState({ [name]: value, hasError: false});
         
@@ -110,6 +141,7 @@ export default class Schedule extends Component {
         console.log("Missing", missing);
         event.preventDefault();
         let data = {
+            AddressId:  this.state.edit ? this.state.editAddress.addressId : 0,
             RoadType: "",
             Street: this.state.address,
             Number: this.state.number,
@@ -120,7 +152,6 @@ export default class Schedule extends Component {
             UF: "",
             Information: this.state.information,
             Cpf: sessionStorage.getItem('code'),
-            AddressAction: 1,
             TimeSheet: {
                 StartDate: this.state.startWorkHour,
                 EndDate: this.state.endWorkHour,
@@ -134,34 +165,56 @@ export default class Schedule extends Component {
             Telephone: this.state.telephone,
             HealthCare: this.state.healthCare
         }
+        console.log(data)
 
         const URL = `https://agendamedicoapi.azurewebsites.net/api/Addresses`;
         if (missing.length > 0) {
             this.setState({ hasError: true });
-        }else if(this.state.addressLength < 2) {
-            axios(URL, {
-                method: 'POST',
-                headers: {
-                    'Access-Control-Allow-Origin': 'http://localhost:3000',
-                    'content-type': 'application/json;',
-                    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-                    'Access-Control-Allow-Headers': '*',
-                    'Accept': '/'
-                },
-                data: data,
-            })
-                .then(response => { 
-                    console.log(response);
-                    this.setState({ message: response.data.mensagem, submitted: true });
-                }).catch(error => {
-                    console.log(error);
-                    this.setState({ message: error.response.data.mensagem, submitError: true ,alert: true});
-            });
-        } else {
-            let mensagem = "Não é possivel cadastrar outro endereço porque tem cadastrados dois!"
-            this.setState({ message: mensagem, alertError: true });
-        }
+        }else {
+            if(this.state.edit) {
+                data.push({Status: 1});
+                const URLEditar = `https://agendamedicoapi.azurewebsites.net/api/Addresses/`;
+                axios(URLEditar + sessionStorage.getItem('code'), {
+                    method: 'PUT',
+                    headers: {
+                        'Access-Control-Allow-Origin': 'http://localhost:3000',
+                        'content-type': 'application/json;',
+                        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                        'Access-Control-Allow-Headers': '*',
+                        'Accept': '/'
+                    },
+                    data: data,
+                })
+                    .then(response => { 
+                        this.setState({edit: false, cancel: false, message: "Endereço cancelado com successo!"})
+                        console.log(response);
+                    }).catch(error => {
+                        console.log(error);
+                });
+            }else {
+                data.push({AddressAction: 1});
+                axios(URL, {
+                    method: 'POST',
+                    headers: {
+                        'Access-Control-Allow-Origin': 'http://localhost:3000',
+                        'content-type': 'application/json;',
+                        'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+                        'Access-Control-Allow-Headers': '*',
+                        'Accept': '/'
+                    },
+                    data: data,
+                })
+                    .then(response => { 
+                        console.log(response);
+                        this.setState({ message: response.data.mensagem, submitted: true });
+                    }).catch(error => {
+                        console.log(error);
+                        this.setState({ message: error.response.data.mensagem,});
+                });
+            }
+        } 
     }
+
 
     render() {
         const { hasError} = this.state;
@@ -170,13 +223,12 @@ export default class Schedule extends Component {
         return (
             <div className="schedule">
                 {
-                    (this.state.submitted || this.state.alert) &&
+                    this.state.submitted &&
                     <div className="schedule__form">
                         <Alert variant="filled" severity="success">
                            {this.state.message}
                         </Alert>
                         <div> 
-                            <img className="signup-patient-img" alt="" src={planilha}/>
                             <p className="forgot-password text-right">
                                 Volta para <a href="/schedule-doctor">pagina do endereços</a>
                             </p>
@@ -184,19 +236,16 @@ export default class Schedule extends Component {
                     </div>
                 }  
                 {
-                    (this.state.submitError || this.state.alertError) &&
+                    this.state.submitError &&
                      <div className="schedule__form">
                         <Alert variant="filled" severity="error">
                             {this.state.message}
                         </Alert>
-                        { !this.state.alertError &&
-                            <div> 
-                                <img className="signup-patient-img" alt="" src={planilha}/>
-                                <p className="forgot-password text-right">
-                                    Volta para <a href="/schedule-doctor">pagina de cadastro de endereço</a>
-                                </p>
-                            </div>
-                        }
+                        <div> 
+                            <p className="forgot-password text-right">
+                                Volta para <a href="/schedule-doctor">pagina de cadastro de endereço</a>
+                            </p>
+                        </div>
                     </div>
                 }
                 {!this.state.submitted && !this.state.submitError &&
@@ -204,12 +253,12 @@ export default class Schedule extends Component {
                         <div className="schedule--flex schedule--margin">
                             <div className="form-group" style={{marginRight: "10px"}}>
                                 <InputLabel style={{color: "black", fontWeight: "600"}} htmlFor="bootstrap-input">CEP</InputLabel>
-                                <MaskedInput className="schedule__input" name="cep" value={this.state.cep} onChange={this.handleChange} mask={[/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}/>
+                                <MaskedInput className="schedule__input" name="cep" defaultValue={this.state.cep} onChange={this.handleChange} mask={[/\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}/>
                                 {this.state.cep === null && hasError && <FormHelperText style={{padding: "0", color: "red"}}>Digita seu CEP!</FormHelperText>}
                             </div>
                             <div className="form-group">
                                 <InputLabel style={{color: "black", fontWeight: "600"}} htmlFor="bootstrap-input">Telefone</InputLabel>
-                                <MaskedInput className="schedule__input" name="telephone" value={this.state.telephone} onChange={this.handleChange} mask={['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}/>
+                                <MaskedInput className="schedule__input" name="telephone" defaultValue={this.state.telephone} onChange={this.handleChange} mask={['(', /[1-9]/, /\d/, ')', ' ', /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/, /\d/]}/>
                                 {this.state.telephone === null && hasError && <FormHelperText style={{padding: "0", color: "red"}}>Digita seu Telefone!</FormHelperText>}
                             </div>
                         </div>
@@ -306,7 +355,7 @@ export default class Schedule extends Component {
                                     {daysOfWeek.daysOfWeek.map((option) => (
                                         <div style={{flexDirection: "column"}}>
                                             <h5 style={{textAlign: "center", margin: "auto"}}>{option.label}</h5>
-                                            <Checkbox color="primary" onChange={event => (this.setState(prevState => ({daysOfWeek: [...prevState.daysOfWeek, ({ Id: 0, Name: option.Name })]})))}/>
+                                            <Checkbox checked={(this.state.editDaysOfWeek.includes(option.Name) ? true : this.state.checked)} color="primary" onChange={event => (this.setState(prevState => ({daysOfWeek: [...prevState.daysOfWeek, ({ Id: 0, Name: option.Name })], checked: event.target.checked})))}/>
                                         </div>
                                     ))}
                                 </div>
@@ -324,7 +373,7 @@ export default class Schedule extends Component {
                             <div className="schedule--flex">
                                 <InputLabel style={{color: "black", fontWeight: "600", padding:"15px", width: "50%"}} htmlFor="bootstrap-input">Tempo para cada consulta</InputLabel>
                                 <div>
-                                <Dropdown options={consultationTime} onChange={event => (this.setState({consultationTime: event.label}))} value={this.state.consultationTime} placeholder="Selecione" />
+                                <Dropdown options={consultationTime} onChange={event => (this.setState({consultationTime: event.label}))} InputLabel={this.state.consultationTime} value={this.state.consultationTime} placeholder="Selecione" />
                                 {this.state.consultationTime === "" && hasError && <FormHelperText style={{padding: "0", color: "red"}}>Escolha duração da consulta!</FormHelperText>}
                                 </div>
                             </div>
@@ -337,7 +386,7 @@ export default class Schedule extends Component {
                             name="healthCare"
                             aria-label="maximum height width"
                             placeholder=""
-                            value={this.state.healthCare}
+                            defaultValue={this.state.healthCare}
                             onChange={this.handleChange}
                         />
                         {this.state.healthCare === "" && hasError && <FormHelperText style={{padding: "0", color: "red"}}>Digita as planos de saude!</FormHelperText>}
@@ -349,13 +398,12 @@ export default class Schedule extends Component {
                             name="information"
                             aria-label="maximum height width"
                             placeholder=""
-                            value={this.state.information}
+                            defaultValue={this.state.information}
                             onChange={this.handleChange}
                         />
                         <div className="schedule--flex schedule--margin">
-                            <button type="submit" style={{marginRight: "10px"}} className="btn btn-primary" onSubmit={this.handleSubmit}>Criar Agenda</button>
-                            {/* {this.state.addressLength < 1 && <button type="submit" style={{marginRight: "10px"}} className="btn btn-primary" onSubmit={this.handleSubmit}>Criar Agenda</button>}
-                            {this.state.addressLength === 1 && <button type="submit" className="btn btn-primary">Adicionar novo endereço</button>} */}
+                            {!this.state.edit && <button type="submit" className="btn btn-primary" onSubmit={this.handleSubmit}>Criar Agenda</button>}
+                            {this.state.edit && <button type="submit" className="btn btn-primary" onSubmit={this.handleSubmit}>Atualizar Agenda</button>}}
                         </div>
                     </form>
                 }
