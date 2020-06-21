@@ -1,10 +1,17 @@
 @media all and (max-width: 600px) {
     .search-page {
-        padding: 8% 0% !important;
+        padding: 20% 0% !important;
     }
 
     .search-page__form {
-        width: 100% !important;
+        width: 100% !important;    
+        margin-top: 50px !important;
+    }
+}
+
+@media all and (min-width: 900px) {
+    .search-page__form {
+        margin-top: 40px !important;
     }
 }
 
@@ -19,6 +26,7 @@
     background-size: cover;
     position: relative;
     z-index: 0;
+    padding-bottom: 0 !important;
 }
 
 .search-page__form {
@@ -34,9 +42,8 @@
     position: relative;
     width: 80%;
     margin: auto;
-    margin-top: 4em;
 }
 
 .search-padding{
-    padding: 40px;
+    padding: 30px 45px;
 }
