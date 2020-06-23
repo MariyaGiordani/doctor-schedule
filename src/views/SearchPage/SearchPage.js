@@ -74,6 +74,7 @@ export default class SearchPage extends Component {
 
     handleSubmit(event) {
         this.setState({ submitError: false });
+        var list = [];
         event.preventDefault(); 
         const URL = `https://agendamedicoapi.azurewebsites.net/api/Doctors/search`;
         axios.get(URL, {
@@ -87,6 +88,7 @@ export default class SearchPage extends Component {
           .then(response => {
                 console.log(response);
                 if(response.data.length > 0){
+                    // list = response.data;
                     this.setState({ listDoctors: response.data, doctors: true });
                 }//else {
                     //this.setState({ resultDoctor: true, doctor: response.data[0]});
@@ -95,6 +97,15 @@ export default class SearchPage extends Component {
                 console.log(error);
                 this.setState({ message: error.response.data.mensagem, submitError: true });
         });
+
+        // list.map(item => {
+        //     if(item.status !== 2) {
+        //       return  this.setState(prevState => ({
+        //         addreslistDoctorsses: [...prevState.addresses, item]
+        //       }));
+        //     }
+        //     return null;
+        // });
     }
 
     render() {

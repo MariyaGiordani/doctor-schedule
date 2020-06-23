@@ -82,11 +82,10 @@ export default class Schedule extends Component {
            secondAddress: false,
            edit: false,
            editDaysOfWeek: [],
-           checked: false
         };
     }
 
-    async componentDidMount() {
+    componentDidMount() {
         if(this.state.editAddress.length === undefined) {
             let array = [];
             this.state.editAddress.timeSheet.daysOfTheWeeks.map((option) => (array.push(option.name)));
@@ -107,11 +106,26 @@ export default class Schedule extends Component {
                             endWorkHour: new Date(this.state.editAddress.timeSheet.endDate),
                             editDaysOfWeek: array,
                             edit: true});
-            if(this.state.editAddress.postalCode !== null) {
-                this.searchCEP(this.state.cep);
-            }
+            daysOfWeek.daysOfWeek.map(option => {
+                let checkedbox = array.includes(option.Name) ? true : false;
+                option.checked = checkedbox;
+                return null;
+            })
         }
     }
+    handleCheckbox = (e) => {
+        let name = e.target.name;
+        let isChecked = e.target.checked;
+        this.setState(prevState => ({daysOfWeek: [...prevState.daysOfWeek, ({ Id: 0, Name: parseInt(name)})]}));
+        daysOfWeek.daysOfWeek.map(option => {
+            if(option.Name.toString() === name){
+                console.log(isChecked);
+                option.checked = isChecked
+            }
+            return null;
+        })
+        console.log(this.state.daysOfWeek)
+    };
 
     searchCEP = async(value) => {
         let results = await axios.get(`http://viacep.com.br/ws/` + value + `/json/`).then((response) => {return response.data});
@@ -134,7 +148,14 @@ export default class Schedule extends Component {
     }
 
     handleSubmit = (event) => {
-        console.log(this.state.daysOfWeek.length)
+        let newDaysOfWeek = [];
+        daysOfWeek.daysOfWeek.map(option => {
+            if(option.checked) {
+                newDaysOfWeek.push({ Id: 0, Name: parseInt(option.Name)});
+            }
+            return null;
+        })
+        console.log(newDaysOfWeek)
         this.setState({ hasError: false });
         let requiredFields = ["cep", "healthCare", "telephone", "city", "neighborhood", "address", "number", "startLunchHour", "endLunchHour", "startWorkHour", "endWorkHour", "consultationTime", "cancelMedicalConsultation", "daysOfWeek"];
         let missing = requiredFields.filter(f => { return this.state[f] === undefined || this.state[f] === null || this.state[f] === ''; } );
@@ -153,6 +174,7 @@ export default class Schedule extends Component {
             Information: this.state.information,
             Cpf: sessionStorage.getItem('code'),
             TimeSheet: {
+                TimeSheetId: this.state.edit ? this.state.editAddress.timeSheet.timeSheetId : 0,
                 StartDate: this.state.startWorkHour,
                 EndDate: this.state.endWorkHour,
                 LunchStartDate: this.state.startLunchHour,
@@ -160,7 +182,7 @@ export default class Schedule extends Component {
                 AppointmentDuration: this.state.consultationTime,
                 Cpf: sessionStorage.getItem('code'),
                 AppointmentCancelTime: this.state.cancelMedicalConsultation,
-                DaysOfTheWeeks: this.state.daysOfWeek
+                DaysOfTheWeeks: newDaysOfWeek
             },
             Telephone: this.state.telephone,
             HealthCare: this.state.healthCare
@@ -172,7 +194,7 @@ export default class Schedule extends Component {
             this.setState({ hasError: true });
         }else {
             if(this.state.edit) {
-                data.push({Status: 1});
+                Object.assign((data), {Status: 1});
                 const URLEditar = `https://agendamedicoapi.azurewebsites.net/api/Addresses/`;
                 axios(URLEditar + sessionStorage.getItem('code'), {
                     method: 'PUT',
@@ -186,13 +208,14 @@ export default class Schedule extends Component {
                     data: data,
                 })
                     .then(response => { 
-                        this.setState({edit: false, cancel: false, message: "Endereço cancelado com successo!"})
+                        this.setState({submitted: true, message: "Endereço autualizado com successo!"})
                         console.log(response);
                     }).catch(error => {
                         console.log(error);
+                        this.setState({ message: error.response.data.mensagem, submitError: true});
                 });
             }else {
-                data.push({AddressAction: 1});
+                Object.assign((data), {AddressAction: 1});
                 axios(URL, {
                     method: 'POST',
                     headers: {
@@ -209,7 +232,7 @@ export default class Schedule extends Component {
                         this.setState({ message: response.data.mensagem, submitted: true });
                     }).catch(error => {
                         console.log(error);
-                        this.setState({ message: error.response.data.mensagem,});
+                        this.setState({ message: error.response.data.mensagem, submitError: true});
                 });
             }
         } 
@@ -355,7 +378,7 @@ export default class Schedule extends Component {
                                     {daysOfWeek.daysOfWeek.map((option) => (
                                         <div style={{flexDirection: "column"}}>
                                             <h5 style={{textAlign: "center", margin: "auto"}}>{option.label}</h5>
-                                            <Checkbox checked={(this.state.editDaysOfWeek.includes(option.Name) ? true : this.state.checked)} color="primary" onChange={event => (this.setState(prevState => ({daysOfWeek: [...prevState.daysOfWeek, ({ Id: 0, Name: option.Name })], checked: event.target.checked})))}/>
+                                            <Checkbox name={option.Name} checked={option.checked} color="primary" onChange={this.handleCheckbox}/>
                                         </div>
                                     ))}
                                 </div>
@@ -403,7 +426,7 @@ export default class Schedule extends Component {
                         />
                         <div className="schedule--flex schedule--margin">
                             {!this.state.edit && <button type="submit" className="btn btn-primary" onSubmit={this.handleSubmit}>Criar Agenda</button>}
-                            {this.state.edit && <button type="submit" className="btn btn-primary" onSubmit={this.handleSubmit}>Atualizar Agenda</button>}}
+                            {this.state.edit && <button type="submit" className="btn btn-primary" onSubmit={this.handleSubmit}>Atualizar Agenda</button>}
                         </div>
                     </form>
                 }
