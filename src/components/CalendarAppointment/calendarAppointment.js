@@ -31,6 +31,7 @@ export default class CalendarAppointment extends React.Component {
             availability:[],
             error: false,
             response: false,
+            book: false,
             message: ''
         };
     }
@@ -40,7 +41,7 @@ export default class CalendarAppointment extends React.Component {
     };
     
     handleEventClick = async(event) => {
-        this.toggle();
+        console.log("AddressTest",this.state.address)
         this.setState({ date: event.date });
         console.log(event.dateStr);
         const URL = `https://agendamedicoapi.azurewebsites.net/api/Appointments/GetAvailability`;
@@ -55,13 +56,14 @@ export default class CalendarAppointment extends React.Component {
                 console.log(error.response.data.mensagem);
                 this.setState({response: true, message: error.response.data.mensagem})
             });
+        this.setState({ modal: !this.state.modal, error: false, data: null, time: null });
         console.log(this.state.availability)
     };
 
     handleSave = () => {
         if(this.state.time === null) {
            this.setState({error: true})
-        }else if (sessionStorage.getItem("appoitmentStatus") != "2"){
+        }else if (sessionStorage.getItem("appoitmentStatus") !== "2"){
             let hour = new Date(this.state.time).toLocaleTimeString()
             let date = new Date(this.state.date).toISOString().slice(0, 10)
             let newData = date + "T" + hour;

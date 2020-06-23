@@ -18,17 +18,31 @@ export default class SearchDoctor extends Component {
            id: null,
            message: "",
            scroll: false,
-           length: props.information.doctor.Addresses.length
+           length: props.information.doctor.Addresses.length,
+           addresses: [],
+           messageScroll: false
         };
     }
 
     componentWillMount() {
-       this.state.doctors.doctor.Addresses.length > 1 ? this.setState({avatar: true}) : this.setState({avatar: false, addressDoctor: this.state.doctors.doctor.Addresses[0]});
-       this.setState({message: "Atenção este médico atende em duas localidades. Escolha o endereço clicando no check."})
+        this.state.doctors.doctor.Addresses.map(item => {
+            if(item.Status !== 2) {
+                return  this.setState(prevState => ({
+                addresses: [...prevState.addresses, item]
+                }));
+            }
+            return null;
+        });
+        if(this.state.doctors.doctor.Addresses.length === 1) {
+            this.setState({addressDoctor: this.state.doctors.doctor.Addresses[0]});
+        }
+        this.setState({message: "Atenção este médico atende em duas localidades. Escolha o endereço clicando no check."});
+        console.log("Test",this.state.addresses, this.state.addresses.length)
     }
 
     componentDidMount() {
-        window.scrollTo(0, 0)
+        this.state.addresses.length > 1 ? this.setState({avatar: true}) : this.setState({avatar: false, addressDoctor: this.state.doctors.doctor.Addresses[0], messageScroll: true});
+        window.scrollTo(0, 0);
     }
 
     handleDays = (day) => {
@@ -38,7 +52,8 @@ export default class SearchDoctor extends Component {
     render() {
         const {doctors, avatar, calendar, id, addressDoctor} = this.state;
         const newMessage = "Atenção este médico atende em duas localidades.";
-        console.log(this.state.doctors)
+        console.log(this.state.doctors);
+        console.log("AddressDoctor",this.state.addressDoctor);
         return (
             <div onWheel={ event => {
                 if (event.nativeEvent.wheelDelta > 0) {
@@ -51,7 +66,7 @@ export default class SearchDoctor extends Component {
                 }
               }}
              >
-            { this.state.scroll && this.state.length === 1 &&
+            { this.state.scroll && this.state.messageScroll &&
                 <div className="info"> 
                     <h5 className="title">
                         Endereço: {this.state.addressDoctor.Street + " , " + this.state.addressDoctor.Number},
@@ -65,16 +80,16 @@ export default class SearchDoctor extends Component {
                     </h5>
                 </div>
             }
-            { doctors.doctor.Addresses.length > 1 &&
+            { this.state.addresses.length > 1 &&
                <h5 className="title-message">{this.state.message}</h5>
             }
             {doctors.doctor.Addresses.map((option) => (
                 <div>
-                    {(option.$id === id || id === null) &&
+                    {(option.$id === id || id === null) && option.Status !== 2 &&
                         <div className="search-doctor search-margin">
                             {console.log("Option",option)}
                             { avatar &&
-                                <Avatar onClick={event => {window.scrollTo(0, 0); this.setState({length: 1, calendar: true, addressDoctor: option, id: option.$id, avatar: false, message: newMessage})}} style={{backgroundColor:"#3f51b5"}}>
+                                <Avatar onClick={event => {window.scrollTo(0, 0); this.setState({length: 1, calendar: true, addressDoctor: option, id: option.$id, avatar: false, message: newMessage, messageScroll: true})}} style={{backgroundColor:"#3f51b5"}}>
                                     <CheckCircleIcon />
                                 </Avatar>
                             }
@@ -115,7 +130,7 @@ export default class SearchDoctor extends Component {
                     }
                 </div>
             ))}
-            { (doctors.doctor.Addresses.length <= 1 || calendar) &&
+            { (this.state.addresses.length <= 1 || calendar) &&
                 <CalendarAppointment address={addressDoctor}/>
             }
             </div>

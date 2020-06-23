@@ -74,7 +74,6 @@ export default class SearchPage extends Component {
 
     handleSubmit(event) {
         this.setState({ submitError: false });
-        var list = [];
         event.preventDefault(); 
         const URL = `https://agendamedicoapi.azurewebsites.net/api/Doctors/search`;
         axios.get(URL, {
@@ -88,7 +87,7 @@ export default class SearchPage extends Component {
           .then(response => {
                 console.log(response);
                 if(response.data.length > 0){
-                    // list = response.data;
+                    console.log(response.data);
                     this.setState({ listDoctors: response.data, doctors: true });
                 }//else {
                     //this.setState({ resultDoctor: true, doctor: response.data[0]});
@@ -97,15 +96,6 @@ export default class SearchPage extends Component {
                 console.log(error);
                 this.setState({ message: error.response.data.mensagem, submitError: true });
         });
-
-        // list.map(item => {
-        //     if(item.status !== 2) {
-        //       return  this.setState(prevState => ({
-        //         addreslistDoctorsses: [...prevState.addresses, item]
-        //       }));
-        //     }
-        //     return null;
-        // });
     }
 
     render() {
@@ -137,7 +127,7 @@ export default class SearchPage extends Component {
                                     {this.state.listDoctors.map((item) =>  (
                                         <TableRow key={item.$id}>
                                             <TableCell component="th" scope="row">
-                                                {console.log("Doctor", item.$id, item)}
+                                                {console.log("Doctor", item.$id, item, item.Addresses.length)}
                                                 <Avatar onClick={event => (this.setState({resultDoctor: true, doctor: item}))} style={{backgroundColor:"#3f51b5"}}>
                                                     <PageviewIcon />
                                                 </Avatar>
@@ -146,10 +136,9 @@ export default class SearchPage extends Component {
                                             <TableCell align="left">{item.Speciality}</TableCell>
                                             {console.log(item.Addresses)}
                                             {item.Addresses.map((item) =>  (
-                                                <TableCell key={item.$id} align="left">{item.Street}</TableCell>
+                                                item.Status!== 2 && <TableCell key={item.$id} align="left">{item.Street} , {item.Number}</TableCell>
                                             ))}
-                                            {item.Addresses.length < 1 && <TableCell align="left">{item.Addresses.Street}</TableCell>}
-                                            {item.Addresses.length < 1 && <TableCell align="left">{}</TableCell>}
+                                            {item.Addresses.length <= 1 && <TableCell align="left">Não cadastrado</TableCell>}
                                         </TableRow>
                                     ))}
                                     </TableBody>

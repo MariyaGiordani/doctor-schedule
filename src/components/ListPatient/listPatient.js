@@ -123,7 +123,7 @@ export default class ListPatient extends React.Component {
                             </TableHead>
                             <TableBody>
                             {this.state.appointments.map((item) =>  (
-                                <TableRow key={item.address.addressId}>
+                                <TableRow key={item.address.appointmentId}>
                                     {console.log(item.appointmentTime)}
                                     <TableCell value={item} component="th" scope="row" onClick={event => (this.setState({modal: !this.state.modal, doctor: item, reschedule: true, cancel: false}))}>
                                         <Avatar style={{backgroundColor:"#3f51b5"}}>
