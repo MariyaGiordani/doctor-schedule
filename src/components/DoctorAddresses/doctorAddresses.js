@@ -108,7 +108,7 @@ export default class DoctorAddresses extends Component {
                                         <TableCell style={{color:"white"}} align="left">CEP</TableCell>
                                         <TableCell style={{color:"white"}} align="left">Endereço</TableCell>
                                         <TableCell style={{color:"white"}} align="left">Cidade</TableCell>
-                                        <TableCell style={{color:"white"}} align="left">Telephone</TableCell>
+                                        <TableCell style={{color:"white"}} align="left">Telefone</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>

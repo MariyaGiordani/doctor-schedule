@@ -160,6 +160,7 @@ export default class Schedule extends Component {
         let requiredFields = ["cep", "healthCare", "telephone", "city", "neighborhood", "address", "number", "startLunchHour", "endLunchHour", "startWorkHour", "endWorkHour", "consultationTime", "cancelMedicalConsultation", "daysOfWeek"];
         let missing = requiredFields.filter(f => { return this.state[f] === undefined || this.state[f] === null || this.state[f] === ''; } );
         console.log("Missing", missing);
+        console.log("Date", this.state.startWorkHour);
         event.preventDefault();
         let data = {
             AddressId:  this.state.edit ? this.state.editAddress.addressId : 0,
@@ -175,7 +176,7 @@ export default class Schedule extends Component {
             Cpf: sessionStorage.getItem('code'),
             TimeSheet: {
                 TimeSheetId: this.state.edit ? this.state.editAddress.timeSheet.timeSheetId : 0,
-                StartDate: this.state.startWorkHour,
+                StartDate: this.state.startWorkHours,
                 EndDate: this.state.endWorkHour,
                 LunchStartDate: this.state.startLunchHour,
                 LunchEndDate: this.state.endLunchHour,
@@ -194,7 +195,9 @@ export default class Schedule extends Component {
             this.setState({ hasError: true });
         }else {
             if(this.state.edit) {
+                console.log("1", data)
                 Object.assign((data), {Status: 1});
+                console.log("2", data)
                 const URLEditar = `https://agendamedicoapi.azurewebsites.net/api/Addresses/`;
                 axios(URLEditar + sessionStorage.getItem('code'), {
                     method: 'PUT',
@@ -215,7 +218,9 @@ export default class Schedule extends Component {
                         this.setState({ message: error.response.data.mensagem, submitError: true});
                 });
             }else {
+                console.log("1", data)
                 Object.assign((data), {AddressAction: 1});
+                console.log("2", data)
                 axios(URL, {
                     method: 'POST',
                     headers: {

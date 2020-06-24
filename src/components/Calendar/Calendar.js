@@ -22,7 +22,11 @@ export default class Calendar extends React.Component {
         this.state = {
             event: {
               title: "",
-              start: new Date()
+              start: new Date(),
+              extendedProps: {
+                address: "",
+                addressNumber: null
+              },
             },
             modal: false,
             message: ""
@@ -41,7 +45,9 @@ export default class Calendar extends React.Component {
               appointmentId: option.appointmentId,
               doctorCpf: option.doctorCpf,
               patientCpf: option.patientCpf,
-              addressId: option.address.addressId
+              addressId: option.address.addressId,
+              address: option.address.street,
+              addressNumber: option.address.number
             }
           ));
           this.setState({events: events})
@@ -112,7 +118,6 @@ export default class Calendar extends React.Component {
             <Modal
                 isOpen={this.state.modal}
                 toggle={this.toggle}
-                size="sm"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
             >
@@ -120,7 +125,7 @@ export default class Calendar extends React.Component {
                   Nome do Paciente: {this.state.event.title}
                 </ModalHeader>
                 <ModalBody>
-                  {
+                  {/* {
                     !this.state.cancel &&
                       <div style={{display: "flex", flexDirection: "column"}}>
                         <FormControl disabled style={{color: "black"}}>
@@ -132,11 +137,26 @@ export default class Calendar extends React.Component {
                           <Input id="component-simple" style={{width: "6em", color: "black"}} value={new Date(this.state.event.start).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})} />
                         </FormControl>
                       </div>
-                  }
+                  } */}
+                  {console.log("Patient", this.state.event)}
+                  <div style={{display: "flex", flexDirection: "column"}}>
+                      <FormControl disabled style={{color: "black"}}>
+                        <InputLabel htmlFor="component-disabled" style={{color: "black"}}>Endereço de Consultorio</InputLabel>
+                        <Input id="component-simple" style={{ width: "22em", color: "black"}} value={this.state.event.extendedProps.address + " " + this.state.event.extendedProps.addressNumber} />
+                      </FormControl>
+                      <FormControl disabled style={{color: "black", marginTop: "20px"}}>
+                        <InputLabel htmlFor="component-disabled" style={{color: "black"}}>Data</InputLabel>
+                        <Input id="component-simple" style={{width: "6em", color: "black"}} value={new Date(this.state.event.start).toLocaleDateString()} />
+                      </FormControl>
+                      <FormControl disabled style={{color: "black", marginTop: "20px"}}>
+                        <InputLabel htmlFor="component-disabled" style={{color: "black"}}>Time</InputLabel>
+                        <Input id="component-simple" style={{width: "6em", color: "black"}} value={new Date(this.state.event.start).toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'})} />
+                      </FormControl>
+                    </div>
                   { this.state.cancel && <div>{this.state.message}</div> }
                 </ModalBody>
                 <ModalFooter>
-                    {!this.state.cancel && <Button color="primary" onClick={this.handleCancel}>Cancelar Consulta</Button>}
+                    {/* {!this.state.cancel && <Button color="primary" onClick={this.handleCancel}>Cancelar Consulta</Button>} */}
                 </ModalFooter>
             </Modal>
           </div>

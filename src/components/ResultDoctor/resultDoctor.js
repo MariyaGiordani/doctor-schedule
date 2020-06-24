@@ -33,9 +33,7 @@ export default class SearchDoctor extends Component {
             }
             return null;
         });
-        if(this.state.doctors.doctor.Addresses.length === 1) {
-            this.setState({addressDoctor: this.state.doctors.doctor.Addresses[0]});
-        }
+        this.setState({addressDoctor: this.state.doctors.doctor.Addresses[0]});
         this.setState({message: "Atenção este médico atende em duas localidades. Escolha o endereço clicando no check."});
         console.log("Test",this.state.addresses, this.state.addresses.length)
     }

@@ -89,7 +89,7 @@ export default class CalendarAppointment extends React.Component {
             })
                 .then(response => { 
                    console.log(response);
-                   this.setState({response: true, message: response.data.mensagem})
+                   this.setState({response: true, message: response.data.mensagem});
                 }).catch(error => {
                    console.log(error)
             });
