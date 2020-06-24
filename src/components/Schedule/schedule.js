@@ -253,7 +253,7 @@ export default class Schedule extends Component {
                         </Alert>
                         <div> 
                             <p className="forgot-password text-right">
-                                Volta para <a href="/schedule-doctor">pagina do endereços</a>
+                              Voltar para o<a href="/schedule-doctor"> dashboard</a>
                             </p>
                         </div>
                     </div>
